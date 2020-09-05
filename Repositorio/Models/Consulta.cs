@@ -20,7 +20,7 @@ namespace Repositorio.Models
 
         public virtual Clinica ClinicaCodigoNavigation { get; set; }
         public virtual Especialista EspecialistaCodigoNavigation { get; set; }
-        public virtual Pacientes PacienteNavigation { get; set; }
+        public virtual Paciente PacienteNavigation { get; set; }
         public virtual ICollection<Chamada> Chamada { get; set; }
     }
 }

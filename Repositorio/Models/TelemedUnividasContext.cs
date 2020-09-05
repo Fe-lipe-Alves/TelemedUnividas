@@ -18,7 +18,7 @@ namespace Repositorio.Models
         public virtual DbSet<Administrador> Administrador { get; set; }
         public virtual DbSet<Arquivo> Arquivo { get; set; }
         public virtual DbSet<Chamada> Chamada { get; set; }
-        public virtual DbSet<Cidades> Cidades { get; set; }
+        public virtual DbSet<Cidade> Cidade { get; set; }
         public virtual DbSet<Clinica> Clinica { get; set; }
         public virtual DbSet<Consulta> Consulta { get; set; }
         public virtual DbSet<Endereco> Endereco { get; set; }
@@ -28,8 +28,8 @@ namespace Repositorio.Models
         public virtual DbSet<Especialidade> Especialidade { get; set; }
         public virtual DbSet<EspecialidadeEspecialistaClinica> EspecialidadeEspecialistaClinica { get; set; }
         public virtual DbSet<Especialista> Especialista { get; set; }
+        public virtual DbSet<Paciente> Paciente { get; set; }
         public virtual DbSet<PacienteResponsavel> PacienteResponsavel { get; set; }
-        public virtual DbSet<Pacientes> Pacientes { get; set; }
         public virtual DbSet<Prontuario> Prontuario { get; set; }
         public virtual DbSet<Secretario> Secretario { get; set; }
         public virtual DbSet<SecretarioEspecialista> SecretarioEspecialista { get; set; }
@@ -43,7 +43,7 @@ namespace Repositorio.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=192.168.0.111,1433;Database=TelemedUnividas;User Id=sa;Password=yourStrong(!)Password;");
+                optionsBuilder.UseSqlServer("Server=192.168.0.111,1433; Database=TelemedUnividas; User ID=sa; Password=yourStrong(!)Password");
             }
         }
 
@@ -138,9 +138,10 @@ namespace Repositorio.Models
                     .HasConstraintName("FK_Chamada_Consulta");
             });
 
-            modelBuilder.Entity<Cidades>(entity =>
+            modelBuilder.Entity<Cidade>(entity =>
             {
-                entity.HasKey(e => e.Codigo);
+                entity.HasKey(e => e.Codigo)
+                    .HasName("PK_Cidades");
 
                 entity.Property(e => e.Codigo).HasColumnName("codigo");
 
@@ -152,7 +153,7 @@ namespace Repositorio.Models
                 entity.Property(e => e.UnidadeFederativaCodigo).HasColumnName("unidadeFederativa_codigo");
 
                 entity.HasOne(d => d.UnidadeFederativaCodigoNavigation)
-                    .WithMany(p => p.Cidades)
+                    .WithMany(p => p.Cidade)
                     .HasForeignKey(d => d.UnidadeFederativaCodigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Cidades_UnidadeFederativa");
@@ -169,15 +170,17 @@ namespace Repositorio.Models
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Endereco)
-                    .HasColumnName("endereco")
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.Endereco).HasColumnName("endereco");
 
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.EnderecoNavigation)
+                    .WithMany(p => p.Clinica)
+                    .HasForeignKey(d => d.Endereco)
+                    .HasConstraintName("FK_Clinica_Endereco");
             });
 
             modelBuilder.Entity<Consulta>(entity =>
@@ -385,6 +388,8 @@ namespace Repositorio.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EnderecoCodigo).HasColumnName("endereco_codigo");
+
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
@@ -404,6 +409,58 @@ namespace Repositorio.Models
                     .HasColumnName("telefone")
                     .HasMaxLength(15)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.EnderecoCodigoNavigation)
+                    .WithMany(p => p.Especialista)
+                    .HasForeignKey(d => d.EnderecoCodigo)
+                    .HasConstraintName("FK_Especialista_Endereco");
+            });
+
+            modelBuilder.Entity<Paciente>(entity =>
+            {
+                entity.HasKey(e => e.Codigo)
+                    .HasName("PK_Pacientes_1");
+
+                entity.Property(e => e.Codigo).HasColumnName("codigo");
+
+                entity.Property(e => e.Cpf)
+                    .HasColumnName("cpf")
+                    .HasMaxLength(15)
+                    .IsFixedLength();
+
+                entity.Property(e => e.DataNascimento)
+                    .HasColumnName("dataNascimento")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Email)
+                    .HasColumnName("email")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.EnderecoCodigo).HasColumnName("endereco_codigo");
+
+                entity.Property(e => e.Nome)
+                    .HasColumnName("nome")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Senha)
+                    .HasColumnName("senha")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Sobrenome)
+                    .HasColumnName("sobrenome")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefone)
+                    .HasColumnName("telefone")
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.EnderecoCodigoNavigation)
+                    .WithMany(p => p.Paciente)
+                    .HasForeignKey(d => d.EnderecoCodigo)
+                    .HasConstraintName("FK_Paciente_Endereco");
             });
 
             modelBuilder.Entity<PacienteResponsavel>(entity =>
@@ -427,46 +484,6 @@ namespace Repositorio.Models
                     .HasForeignKey(d => d.ResponsavelCodigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Paciente_Responsavel_Pacientes1");
-            });
-
-            modelBuilder.Entity<Pacientes>(entity =>
-            {
-                entity.HasKey(e => e.Codigo)
-                    .HasName("PK_Pacientes_1");
-
-                entity.Property(e => e.Codigo).HasColumnName("codigo");
-
-                entity.Property(e => e.Cpf)
-                    .HasColumnName("cpf")
-                    .HasMaxLength(15)
-                    .IsFixedLength();
-
-                entity.Property(e => e.DataNascimento)
-                    .HasColumnName("dataNascimento")
-                    .HasColumnType("date");
-
-                entity.Property(e => e.Email)
-                    .HasColumnName("email")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Nome)
-                    .HasColumnName("nome")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Senha)
-                    .HasColumnName("senha")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Sobrenome)
-                    .HasColumnName("sobrenome")
-                    .HasMaxLength(150)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Telefone)
-                    .HasColumnName("telefone")
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Prontuario>(entity =>
@@ -520,6 +537,8 @@ namespace Repositorio.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EnderecoCodigo).HasColumnName("endereco_codigo");
+
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
@@ -539,6 +558,11 @@ namespace Repositorio.Models
                     .HasColumnName("telefone")
                     .HasMaxLength(15)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.EnderecoCodigoNavigation)
+                    .WithMany(p => p.Secretario)
+                    .HasForeignKey(d => d.EnderecoCodigo)
+                    .HasConstraintName("FK_Secretario_Endereco");
             });
 
             modelBuilder.Entity<SecretarioEspecialista>(entity =>

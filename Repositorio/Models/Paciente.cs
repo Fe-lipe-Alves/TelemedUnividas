@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Repositorio.Models
 {
-    public partial class Especialista
+    public partial class Paciente
     {
-        public Especialista()
+        public Paciente()
         {
             Consulta = new HashSet<Consulta>();
             Prontuario = new HashSet<Prontuario>();
@@ -16,10 +16,9 @@ namespace Repositorio.Models
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public string Cpf { get; set; }
-        public string Crm { get; set; }
         public string Telefone { get; set; }
-        public string Email { get; set; }
-        public string Senha { get; set; }
+        public byte[] Email { get; set; }
+        public byte[] Senha { get; set; }
         public DateTime? DataNascimento { get; set; }
 
         public virtual Endereco EnderecoCodigoNavigation { get; set; }

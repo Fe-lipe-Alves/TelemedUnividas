@@ -7,12 +7,12 @@ namespace Repositorio.Models
     {
         public UnidadeFederativa()
         {
-            Cidades = new HashSet<Cidades>();
+            Cidade = new HashSet<Cidade>();
         }
 
         public int Codigo { get; set; }
         public string Nome { get; set; }
 
-        public virtual ICollection<Cidades> Cidades { get; set; }
+        public virtual ICollection<Cidade> Cidade { get; set; }
     }
 }
