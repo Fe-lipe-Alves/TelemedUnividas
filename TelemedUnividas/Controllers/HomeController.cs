@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TelemedUnividas.Models;
+using Repositorio;
+using Repositorio.Models;
+using AutoMapper;
 
 namespace TelemedUnividas.Controllers
 {
@@ -20,6 +23,12 @@ namespace TelemedUnividas.Controllers
 
         public IActionResult Index()
         {
+
+
+            //var mapper = new Mapper(AutoMapperConfig.RegisterMappings());
+            //Pacientes p = mapper.Map<Pacientes>(paciente);
+
+
             return View();
         }
 
