@@ -17,8 +17,8 @@ namespace Repositorio.Models
         public string Sobrenome { get; set; }
         public string Cpf { get; set; }
         public string Telefone { get; set; }
-        public byte[] Email { get; set; }
-        public byte[] Senha { get; set; }
+        public string Email { get; set; }
+        public string Senha { get; set; }
         public DateTime? DataNascimento { get; set; }
 
         public virtual Endereco EnderecoCodigoNavigation { get; set; }

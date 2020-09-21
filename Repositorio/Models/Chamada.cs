@@ -9,7 +9,7 @@ namespace Repositorio.Models
         public int ConsultaCodigo { get; set; }
         public byte[] Link { get; set; }
         public DateTime? Inicio { get; set; }
-        public TimeSpan? Duracao { get; set; }
+        public DateTime? Termino { get; set; }
         public bool? PresencaPaciente { get; set; }
         public bool? PresencaEspecialista { get; set; }
         public string Observacoes { get; set; }

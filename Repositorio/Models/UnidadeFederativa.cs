@@ -12,6 +12,7 @@ namespace Repositorio.Models
 
         public int Codigo { get; set; }
         public string Nome { get; set; }
+        public string Sigla { get; set; }
 
         public virtual ICollection<Cidade> Cidade { get; set; }
     }

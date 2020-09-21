@@ -9,15 +9,17 @@ namespace Repositorio.Models
         {
             Consulta = new HashSet<Consulta>();
             Prontuario = new HashSet<Prontuario>();
+            Telefone = new HashSet<Telefone>();
         }
 
         public int Codigo { get; set; }
-        public int? Endereco { get; set; }
+        public int? EnderecoCodigo { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
 
-        public virtual Endereco EnderecoNavigation { get; set; }
+        public virtual Endereco EnderecoCodigoNavigation { get; set; }
         public virtual ICollection<Consulta> Consulta { get; set; }
         public virtual ICollection<Prontuario> Prontuario { get; set; }
+        public virtual ICollection<Telefone> Telefone { get; set; }
     }
 }
