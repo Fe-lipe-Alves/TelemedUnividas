@@ -14,12 +14,6 @@ namespace TelemedUnividas.Models
         public virtual BaseRepositorio<Entity> repositorio { get; set; }
 
         #region Métodos
-
-        public void RunTest()
-        {
-            this.repositorio.Teste();
-        }
-
         public void Salvar()
         {
             Entity entidade = BaseModel<Entity, Model>.ConverterModel(this);
@@ -44,13 +38,6 @@ namespace TelemedUnividas.Models
             Entity entidade = this.repositorio.Localizar(codigo);
             Model modelo = BaseModel<Entity, Model>.ReverterModel(entidade);
             return modelo;
-        }
-
-        public List<Model> Listar(string pesquisa)
-        {
-            List<Entity> entidades = this.repositorio.Localizar(pesquisa);
-            List<Model> modelos = BaseModel<Entity, Model>.ReverterModelList(entidades);
-            return modelos;
         }
 
         public static Entity ConverterModel(object modelo)

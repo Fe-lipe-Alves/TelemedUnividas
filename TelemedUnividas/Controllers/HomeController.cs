@@ -9,6 +9,7 @@ using TelemedUnividas.Models;
 using Repositorio;
 using Repositorio.Models;
 using AutoMapper;
+using Repositorio.Repositorio;
 
 namespace TelemedUnividas.Controllers
 {
@@ -30,15 +31,18 @@ namespace TelemedUnividas.Controllers
             // -------------------------------------
             //      INSERÇÃO DE PACIENTE - OK
             // -------------------------------------
-            //PacienteModel paciente = new PacienteModel();
-            //paciente.Nome = "Fernando";
-            //paciente.Sobrenome = "Jota";
-            //paciente.Salvar();
+            PacienteModel paciente = new PacienteModel();
+            paciente.Nome = "Fernando";
+            paciente.Sobrenome = "Jota";
+            paciente.Salvar();
 
             // ----------------------------------------
             //      Localizar Lista Paciente
             // ----------------------------------------
             //List<PacienteModel> pacientes = (new PacienteModel()).Obter(4);
+
+
+            List<EspecialistaModel> especialistas = (new EspecialistaModel()).LocalizarPorEspecialidade(1);
 
 
             var x = (new PacienteModel()).Obter(4);

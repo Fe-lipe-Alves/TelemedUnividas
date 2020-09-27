@@ -9,11 +9,31 @@ namespace Repositorio.Repositorio
 {
     public class EspecialistaRepositorio : BaseRepositorio<Especialista>
     {
-        public override IQueryable<object> DbModel { get; set; }
-
-        public EspecialistaRepositorio()
+        #region Métodos
+        public List<Especialista> Localizar(string pesquisa)
         {
-            this.DbModel = (new TelemedUnividasContext()).Especialista;
+            List<Especialista> especialistas = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                especialistas = (from e in db.Especialista where e.Nome.Contains(pesquisa) || e.Sobrenome.Contains(pesquisa) || e.Crm.Contains(pesquisa) select e).ToList();
+            }
+
+            return especialistas;
         }
+
+        public List<Especialista> LocalizarPorEspecialidade(int especialidade_codigo)
+        {
+            List<Especialista> especialistas = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                especialistas = (from e in db.Especialista 
+                                 join eec in db.EspecialidadeEspecialistaClinica on e.Codigo equals eec.EspecialisataCodigo
+                                 where eec.EspecialidadeCodigo == especialidade_codigo
+                                 select e).ToList();
+            }
+
+            return especialistas;
+        }
+        #endregion
     }
 }
