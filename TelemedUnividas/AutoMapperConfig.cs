@@ -14,8 +14,8 @@ namespace TelemedUnividas
         {
             var config = new MapperConfiguration(cfg =>
             {
-                //cfg.CreateMap<Pacientes, PacienteModel>();
-                //cfg.CreateMap<PacienteModel, Pacientes>();
+                cfg.CreateMap<Paciente, PacienteModel>();
+                cfg.CreateMap<PacienteModel, Paciente>();
             });
             return config;
         }
