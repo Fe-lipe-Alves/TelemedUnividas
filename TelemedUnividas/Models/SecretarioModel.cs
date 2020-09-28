@@ -1,15 +1,18 @@
 ﻿using Repositorio.Models;
-using Repositorio.Repositorio;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Repositorio.Repositorio;
 
 namespace TelemedUnividas.Models
 {
-    public class EspecialidadeModel : BaseModel<Especialista, EspecialidadeModel>
+    public class SecretarioModel : BaseModel<Secretario, SecretarioModel>
     {
-        #region Propriedades Entidade
-        [Display(Name = "Codigo")]
-        public int Codigo { get; set; }
+        #region Propriedades
+        [Display(Name = "Código")]
+        public override int Codigo { get; set; }
 
         [Display(Name = "Endereço")]
         public int? EnderecoCodigo { get; set; }
@@ -21,7 +24,6 @@ namespace TelemedUnividas.Models
         public string Nome { get; set; }
 
         [Display(Name = "Sobrenome")]
-        [Required]
         [DataType(DataType.Text)]
         [StringLength(150, ErrorMessage = "Sobrenome não pode ter mais de 150 caracteres")]
         public string Sobrenome { get; set; }
@@ -29,10 +31,6 @@ namespace TelemedUnividas.Models
         [Display(Name = "CPF")]
         [DataType(DataType.Text)]
         public string Cpf { get; set; }
-
-        [Display(Name = "CRM")]
-        [DataType(DataType.Text)]
-        public string Crm { get; set; }
 
         [Display(Name = "Telefone")]
         [DataType(DataType.PhoneNumber)]
@@ -54,25 +52,27 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Construtores
-        public EspecialidadeModel()
+        public SecretarioModel()
         {
-            this.repositorio = new EspecialistaRepositorio();
+            this.repositorio = new SecretarioRepositorio();
         }
 
-        public EspecialidadeModel(int codigo, int? enderecoCodigo, string nome, string sobrenome, string cpf, string crm, string telefone, string email, string senha, DateTime? dataNascimento)
+        public SecretarioModel(int codigo, int? enderecoCodigo, string nome, string sobrenome, string cpf, string telefone, string email, string senha, DateTime? dataNascimento)
         {
             this.Codigo = codigo;
             this.EnderecoCodigo = enderecoCodigo;
             this.Nome = nome;
             this.Sobrenome = sobrenome;
             this.Cpf = cpf;
-            this.Crm = crm;
             this.Telefone = telefone;
             this.Email = email;
             this.Senha = senha;
             this.DataNascimento = dataNascimento;
-            this.repositorio = new EspecialistaRepositorio();
+
+            this.repositorio = new SecretarioRepositorio();
         }
+
+
         #endregion
     }
 }

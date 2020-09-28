@@ -10,24 +10,40 @@ namespace Repositorio.Repositorio
 {
     public abstract class BaseRepositorio<Entity>
     {
+        #region Métodos
+        /// <summary>
+        /// Insere um objeto <typeparamref name="Entity"/> no banco de dados
+        /// </summary>
+        /// <param name="entidade"></param>
         public virtual void Inserir(Entity entidade)
         {
-            TelemedUnividasContext db = new TelemedUnividasContext();
-            db.Add(entidade);
-            db.SaveChanges();
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                db.Add(entidade);
+                db.SaveChanges();
+            }
         }
 
+        /// <summary>
+        /// Obtem o objeto <typeparamref name="Entity"/> que possui a chave primária correspondente ao parametro <paramref name="codigo"/>
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns><typeparamref name="Entity"/></returns>
         public virtual Entity Localizar(int codigo)
         {
             Entity model = default(Entity);
-            TelemedUnividasContext db = new TelemedUnividasContext();
-
-            Type entidade = typeof(Entity);
-            model = (Entity)db.Find(entidade, codigo);
-
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                Type entidade = typeof(Entity);
+                model = (Entity)db.Find(entidade, codigo);
+            }
             return model;
         }
 
+        /// <summary>
+        /// Atualiza um objeto <typeparamref name="Entity"/> no banco de dados
+        /// </summary>
+        /// <param name="entidade"></param>
         public virtual void Atualizar(Entity entidade)
         {
             using (TelemedUnividasContext db = new TelemedUnividasContext())
@@ -37,6 +53,10 @@ namespace Repositorio.Repositorio
             }
         }
 
+        /// <summary>
+        /// Exclui um objeto <typeparamref name="Entity"/> do banco de dados
+        /// </summary>
+        /// <param name="entidade"></param>
         public virtual void Excluir(Entity entidade)
         {
             using (TelemedUnividasContext db = new TelemedUnividasContext())
@@ -45,5 +65,6 @@ namespace Repositorio.Repositorio
                 db.SaveChanges();
             }
         }
+        #endregion
     }
 }

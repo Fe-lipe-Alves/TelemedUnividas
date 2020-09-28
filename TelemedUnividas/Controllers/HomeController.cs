@@ -22,31 +22,9 @@ namespace TelemedUnividas.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index() 
         {
-
-            //var mapper = new Mapper(AutoMapperConfig.RegisterMappings());
-            //Pacientes p = mapper.Map<Pacientes>(paciente);
-
-            // -------------------------------------
-            //      INSERÇÃO DE PACIENTE - OK
-            // -------------------------------------
-            PacienteModel paciente = new PacienteModel();
-            paciente.Nome = "Fernando";
-            paciente.Sobrenome = "Jota";
-            paciente.Salvar();
-
-            // ----------------------------------------
-            //      Localizar Lista Paciente
-            // ----------------------------------------
-            //List<PacienteModel> pacientes = (new PacienteModel()).Obter(4);
-
-
-            List<EspecialistaModel> especialistas = (new EspecialistaModel()).LocalizarPorEspecialidade(1);
-
-
-            var x = (new PacienteModel()).Obter(4);
-
+        
             return View();
         }
 

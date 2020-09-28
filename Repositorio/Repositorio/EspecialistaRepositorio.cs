@@ -10,6 +10,11 @@ namespace Repositorio.Repositorio
     public class EspecialistaRepositorio : BaseRepositorio<Especialista>
     {
         #region Métodos
+        /// <summary>
+        /// Obtem uma lista de <see cref="Especialista"/> em que na propriedade <see cref="Especialista.Nome"/>, <see cref="Especialista.Sobrenome"/> ou <see cref="Especialista.Crm"/> contenham o conteudo de <paramref name="pesquisa"/>
+        /// </summary>
+        /// <param name="pesquisa"></param>
+        /// <returns></returns>
         public List<Especialista> Localizar(string pesquisa)
         {
             List<Especialista> especialistas = null;
@@ -21,6 +26,11 @@ namespace Repositorio.Repositorio
             return especialistas;
         }
 
+        /// <summary>
+        /// Obtem uam lista de <see cref="Especialista"/> que se relacionam com <see cref="Especialidade"/> correspondente ao código <paramref name="especialidade_codigo"/>
+        /// </summary>
+        /// <param name="especialidade_codigo"></param>
+        /// <returns></returns>
         public List<Especialista> LocalizarPorEspecialidade(int especialidade_codigo)
         {
             List<Especialista> especialistas = null;

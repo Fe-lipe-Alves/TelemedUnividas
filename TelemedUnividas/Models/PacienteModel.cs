@@ -1,8 +1,6 @@
 ﻿using Repositorio.Models;
 using Repositorio.Repositorio;
 using System;
-using System.Collections.Generic;
-using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 
 namespace TelemedUnividas.Models
@@ -12,6 +10,8 @@ namespace TelemedUnividas.Models
         #region Propriedades
         [Display(Name = "Código")]
         public override int Codigo { get; set; }
+
+        [Display(Name = "Endereço")]
         public int? EnderecoCodigo { get; set; }
 
         [Display(Name = "Nome")]
