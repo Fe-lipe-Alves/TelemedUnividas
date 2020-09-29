@@ -24,6 +24,14 @@ namespace TelemedUnividas.Controllers
 
         public IActionResult Index() 
         {
+            /*
+            PacienteModel paciente = (new PacienteModel()).Obter(4);
+
+            PacienteModel pacienteJoao = new PacienteModel();
+            pacienteJoao.Nome = "João";
+            pacienteJoao.Sobrenome = "Pedro";
+            paciente.Salvar();
+            */
         
             return View();
         }
