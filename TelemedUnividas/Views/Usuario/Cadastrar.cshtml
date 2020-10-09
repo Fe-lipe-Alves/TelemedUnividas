@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Cadastrar Usuário";
+}
+
+<div class="hero-wrap" style="background-image: url('../../images/bg_6.jpg'); background-attachment:fixed;">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center" data-scrollax-parent="true">
+            <div class="col-md-8 ftco-animate text-center">
+                <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cadastrar Usuário</span></p>
+                <h1 class="mb-3 bread">Contact Us</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="ftco-section contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col-md-12 mb-4">
+                <h2 class="h4">Cadastrar Usuário</h2>
+            </div>
+            @*<div class="w-100"></div>
+                <div class="col-md-3">
+                    <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+                </div>
+                <div class="col-md-3">
+                    <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+                </div>
+                <div class="col-md-3">
+                    <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                </div>
+                <div class="col-md-3">
+                    <p><span>Website</span> <a href="#">yoursite.com</a></p>
+                </div>*@
+        </div>
+        <div class="row block-9">
+            <div class="col-md-12 pr-md-5">
+                <form asp-controller="Usuario" asp-action="Salvar" id="cadastrarUsuario">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group d-flex justify-content-around">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="tipoPaciente" name="tipoUsuario" value="paciente" checked>
+                                    <label class="form-check-label" for="tipoPaciente">Paciente</label>
+                                    <div class="invalid-feedback">
+                                        Nome é obriatório
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="tipoEspecialista" name="tipoUsuario" value="especialista">
+                                    <label class="form-check-label" for="tipoEspecialista">Especialista</label>
+
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="tipoSecretario" name="tipoUsuario" value="secretario">
+                                    <label class="form-check-label" for="tipoSecretario">Secretário</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6>Dados Pessoal</h6>
+                            <div class="form-group">
+                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome *">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="sobrenome" id="sobrenome" class="form-control" placeholder="Sobrenome *">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF *">
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="dataNascimento" id="dataNascimento" class="form-control" placeholder="Data de Nascimento *" onfocus="(this.type='date')" onblur="(this.type='text')">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="Telefone *">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h6>Endereço</h6>
+                            <div class="form-group">
+                                <input type="text" name="rua" id="rua" class="form-control" placeholder="Rua *">
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="numero" id="numero" class="form-control" placeholder="Número *">
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *">
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <select type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade *" required>
+                                        <option value="" disabled selected hidden>Cidade *</option>
+                                        <option value="1">Presidente Prudente</option>
+                                        <option value="2">Quatá</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Área Especialista *@
+                        <div class="col-12 pt-5 areaEspecialista displayNone">
+                            <h6>Dados Clínicos</h6>
+                        </div>
+                        <div class="col-12 col-md-6 areaEspecialista displayNone">
+                            <div class="form-group">
+                                <input type="text" name="crm" id="crm" class="form-control" placeholder="CRM *">
+                            </div>
+                        </div>
+                        <div class="col-12 areaEspecialista displayNone">
+                            <div class="input-group">
+                                <input type="hidden" name="especialidadesClinicas" id="especialidadesClinicas" />
+                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *" required>
+                                    <option value="" disabled selected hidden>Clinica *</option>
+                                    <option value="1">Hospital das Clínicas</option>
+                                    <option value="2">Clínica São Paulo</option>
+                                </select>
+                                <select class="form-control" id="selectEspecialidade" required>
+                                    <option value="" disabled selected hidden>Especialidade *</option>
+                                    <option value="1">Clínico Geral</option>
+                                    <option value="2">Pediatra</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary border-radius-0" type="button">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Área Secretário *@
+                        <div class="col-12 pt-5 areaSecretario displayNone">
+                            <h6>Dados Secretário</h6>
+                        </div>
+                        <div class="col-12 col-md-6 areaSecretario displayNone">
+                            <div class="form-group">
+                                <input type="hidden" name="clinica" id="clinica" />
+                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *" required>
+                                    <option value="" disabled selected hidden>Clinica *</option>
+                                    <option value="1">Hospital das Clínicas</option>
+                                    <option value="2">Clínica São Paulo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group text-center py-5">
+                                <input type="submit" value="Cadastrar" class="btn btn-primary py-3 px-5">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-8">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Paginas/usuario_cadastrar.js"></script>
+}
