@@ -14,7 +14,6 @@ namespace Repositorio.Repositorio
         /// Obtem uma lista de <see cref="Especialista"/> em que na propriedade <see cref="Especialista.Nome"/>, <see cref="Especialista.Sobrenome"/> ou <see cref="Especialista.Crm"/> contenham o conteudo de <paramref name="pesquisa"/>
         /// </summary>
         /// <param name="pesquisa"></param>
-        /// <returns></returns>
         public List<Especialista> Localizar(string pesquisa)
         {
             List<Especialista> especialistas = null;
@@ -24,6 +23,22 @@ namespace Repositorio.Repositorio
             }
 
             return especialistas;
+        }
+
+        /// <summary>
+        /// Busca por <see cref="Especialista"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> informados
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        public Especialista Login(string email, string senha)
+        {
+            Especialista especialista = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                especialista = (from p in db.Especialista where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+            }
+
+            return especialista;
         }
 
         /// <summary>

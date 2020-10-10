@@ -51,6 +51,10 @@ namespace TelemedUnividas.Models
         public DateTime? DataNascimento { get; set; }
         #endregion
 
+        #region Propriedades Auxiliares
+        public new SecretarioRepositorio repositorio { get; set; }
+        #endregion
+
         #region Construtores
         public SecretarioModel()
         {
@@ -73,6 +77,20 @@ namespace TelemedUnividas.Models
         }
 
 
+        #endregion
+
+        #region Métodos
+        /// <summary>
+        /// Retorna o <see cref="SecretarioModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        /// <returns></returns>
+        public SecretarioModel Login(string email, string senha)
+        {
+            Secretario secretario = this.repositorio.Login(email, senha);
+            return SecretarioModel.ReverterModel(secretario);
+        }
         #endregion
     }
 }

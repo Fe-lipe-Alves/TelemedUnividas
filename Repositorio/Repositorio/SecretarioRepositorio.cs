@@ -25,6 +25,22 @@ namespace Repositorio.Repositorio
             }
             return secretarios;
         }*/
+
+        /// <summary>
+        /// Busca por <see cref="Secretario"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> informados
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        public Secretario Login(string email, string senha)
+        {
+            Secretario secretario = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                // secretario = (from p in db.Secretario where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+            }
+
+            return secretario;
+        }
         #endregion
     }
 }

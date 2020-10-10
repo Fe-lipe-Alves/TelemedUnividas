@@ -15,7 +15,31 @@ $(document).ready(function () {
         }        
     });
 
+    /**
+     * Valida a entrada dos dados para o cadastro de usuário
+     */
     $('form#cadastrarUsuario').on('submit', function (event) {
-        alert('ola');
+
+    });
+
+    /**
+     * Valida a entrada dos dados para login
+     */
+    $('form#loginUsuario').on('submit', function (event) {
+        if ($('#email').val() === "") {
+            $('#email').addClass('is_invalid');
+            event.preventDefault();
+        }
+        if ($('#senha').val() === "") {
+            $('#senha').addClass('is_invalid');
+            event.preventDefault();
+        }
+    });
+
+    /**
+     * Remove a marcação de alerta dos campos inválidos quando são alterados
+     */
+    $('.is_invalid').on('change', function () {
+        $(this).removeClass('is_invalid');
     });
 });

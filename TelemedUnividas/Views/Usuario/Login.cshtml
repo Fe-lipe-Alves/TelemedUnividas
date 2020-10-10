@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="ftco-section contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col-12 col-md-3 offset-md-3 mb-4">
+                <h2 class="h4">Login</h2>
+            </div>
+            <div class="col-12 col-md-3 mb-4 text-right">
+                <a asp-controller="Usuario" asp-action="Cadastrar">Cadastrar</a>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-12 pr-md-5">
+                <form asp-controller="Usuario" asp-action="Entrar" id="LoginUsuario">
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-3">
+                            <h6>Entre com as credenciais</h6>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha *">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group text-center py-5">
+                                <input type="submit" value="Cadastrar" class="btn btn-primary py-3 px-5">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-8">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Paginas/usuario_cadastrar.js"></script>
+}

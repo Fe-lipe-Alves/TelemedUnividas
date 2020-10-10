@@ -35,6 +35,22 @@ namespace Repositorio.Repositorio
             }
             return pacientes;
         }
+
+        /// <summary>
+        /// Busca por <see cref="Paciente"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> informados
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        public Paciente Login(string email, string senha)
+        {
+            Paciente paciente = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                paciente = (from p in db.Paciente where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+            }
+
+            return paciente;
+        }
         #endregion
     }
 }

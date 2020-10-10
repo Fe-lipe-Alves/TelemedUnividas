@@ -48,6 +48,10 @@ namespace TelemedUnividas.Models
         public DateTime? DataNascimento { get; set; }
         #endregion
 
+        #region Propriedades Auxiliares
+        public new PacienteRepositorio repositorio { get; set; }
+        #endregion
+
         #region Construtores
         public PacienteModel()
         {
@@ -66,6 +70,20 @@ namespace TelemedUnividas.Models
             this.Senha = senha;
             this.DataNascimento = dataNascimento;
             this.repositorio = new PacienteRepositorio();
+        }
+        #endregion
+
+        #region Métodos
+        /// <summary>
+        /// Retorna o <see cref="PacienteModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        /// <returns></returns>
+        public PacienteModel Login(string email, string senha)
+        {
+            Paciente paciente = this.repositorio.Login(email, senha);
+            return PacienteModel.ReverterModel(paciente);
         }
         #endregion
     }

@@ -102,6 +102,20 @@ namespace TelemedUnividas.Models
         {
             return null;
         }
+
+        /// <summary>
+        /// Retorna o <see cref="EspecialistaModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="senha"></param>
+        /// <returns></returns>
+        public EspecialistaModel Login(string email, string senha)
+        {
+            this.repositorio.Login(email, senha);
+
+            Especialista especialista = this.repositorio.Login(email, senha);
+            return EspecialistaModel.ReverterModel(especialista);
+        }
         #endregion
     }
 }
