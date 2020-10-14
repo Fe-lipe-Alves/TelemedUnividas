@@ -22,17 +22,19 @@ namespace TelemedUnividas.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index() 
+        public IActionResult Index()
         {
-            /*
-            PacienteModel paciente = (new PacienteModel()).Obter(4);
+            //EspecialistaModel especialista = (new EspecialistaModel()).Obter(1);
 
-            PacienteModel pacienteJoao = new PacienteModel();
-            pacienteJoao.Nome = "João";
-            pacienteJoao.Sobrenome = "Pedro";
-            paciente.Salvar();
-            */
-        
+
+            //PacienteModel paciente = (new PacienteModel()).Obter(4);
+
+            //PacienteModel pacienteJoao = new PacienteModel();
+            //pacienteJoao.Nome = "João";
+            //pacienteJoao.Sobrenome = "Pedro";
+            //paciente.Salvar();
+
+
             return View();
         }
 

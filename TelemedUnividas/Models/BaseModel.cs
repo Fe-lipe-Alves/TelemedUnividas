@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repositorio.Repositorio;
 using AutoMapper;
+using Repositorio.Models;
 
 namespace TelemedUnividas.Models
 {
-    public abstract class BaseModel<Entity, Model>
+    public abstract class BaseModel<Entity, Model> where Entity : class
     {
         #region Propriedades
         public virtual int Codigo { get; set; }
@@ -51,6 +52,23 @@ namespace TelemedUnividas.Models
             Entity entidade = this.repositorio.Localizar(codigo);
             Model modelo = BaseModel<Entity, Model>.ReverterModel(entidade);
             return modelo;
+        }
+
+        /// <summary>
+        /// Retorna todos os registros dessa entidade
+        /// </summary>
+        /// <returns></returns>
+        public List<Model> Todos()
+        {
+            List<Entity> entidades = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                entidades = db.Set<Entity>().ToList();
+            }
+
+            List<Model> modelos = BaseModel<Entity, Model>.ReverterModelList(entidades);
+
+            return modelos;
         }
 
         /// <summary>

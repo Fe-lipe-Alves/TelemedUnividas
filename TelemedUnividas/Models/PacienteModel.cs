@@ -56,6 +56,7 @@ namespace TelemedUnividas.Models
         public PacienteModel()
         {
             this.repositorio = new PacienteRepositorio();
+            base.repositorio = this.repositorio;
         }
 
         public PacienteModel(int codigo, int? enderecoCodigo, string nome, string sobrenome, string cpf, string telefone, string email, string senha, DateTime? dataNascimento, PacienteRepositorio repositorio)

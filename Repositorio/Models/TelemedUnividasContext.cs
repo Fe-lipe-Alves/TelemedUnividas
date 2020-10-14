@@ -32,7 +32,7 @@ namespace Repositorio.Models
         public virtual DbSet<PacienteResponsavel> PacienteResponsavel { get; set; }
         public virtual DbSet<Prontuario> Prontuario { get; set; }
         public virtual DbSet<Secretario> Secretario { get; set; }
-        public virtual DbSet<SecretarioEspecialistaClinica> SecretarioEspecialistaClinica { get; set; }
+        public virtual DbSet<SecretarioEspecialista> SecretarioEspecialista { get; set; }
         public virtual DbSet<Telefone> Telefone { get; set; }
         public virtual DbSet<TelefoneClinica> TelefoneClinica { get; set; }
         public virtual DbSet<TipoArquivo> TipoArquivo { get; set; }
@@ -42,8 +42,8 @@ namespace Repositorio.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-Q94MTB0\\SQLEXPRESS; Database=TelemedUnividas; integrated security=true;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=192.168.0.105,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
             }
         }
 
@@ -113,6 +113,8 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.ConsultaCodigo).HasColumnName("consulta_codigo");
 
+                entity.Property(e => e.Duracao).HasColumnName("duracao");
+
                 entity.Property(e => e.Inicio)
                     .HasColumnName("inicio")
                     .HasColumnType("datetime");
@@ -128,10 +130,6 @@ namespace Repositorio.Models
                 entity.Property(e => e.PresencaEspecialista).HasColumnName("presenca_especialista");
 
                 entity.Property(e => e.PresencaPaciente).HasColumnName("presenca_paciente");
-
-                entity.Property(e => e.Termino)
-                    .HasColumnName("termino")
-                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.ConsultaCodigoNavigation)
                     .WithMany(p => p.Chamada)
@@ -172,16 +170,16 @@ namespace Repositorio.Models
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EnderecoCodigo).HasColumnName("endereco_codigo");
+                entity.Property(e => e.Endereco).HasColumnName("endereco");
 
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.EnderecoCodigoNavigation)
+                entity.HasOne(d => d.EnderecoNavigation)
                     .WithMany(p => p.Clinica)
-                    .HasForeignKey(d => d.EnderecoCodigo)
+                    .HasForeignKey(d => d.Endereco)
                     .HasConstraintName("FK_Clinica_Endereco");
             });
 
@@ -229,11 +227,6 @@ namespace Repositorio.Models
                 entity.HasKey(e => e.Codigo);
 
                 entity.Property(e => e.Codigo).HasColumnName("codigo");
-
-                entity.Property(e => e.Bairro)
-                    .HasColumnName("bairro")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.CidadeCodigo).HasColumnName("cidade_codigo");
 
@@ -336,7 +329,8 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Descricao)
                     .HasColumnName("descricao")
-                    .HasMaxLength(100);
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<EspecialidadeEspecialistaClinica>(entity =>
@@ -574,15 +568,13 @@ namespace Repositorio.Models
                     .HasConstraintName("FK_Secretario_Endereco");
             });
 
-            modelBuilder.Entity<SecretarioEspecialistaClinica>(entity =>
+            modelBuilder.Entity<SecretarioEspecialista>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("Secretario_Especialista_Clinica");
+                entity.ToTable("Secretario_Especialista");
 
                 entity.Property(e => e.ClinicaCodigo).HasColumnName("clinica_codigo");
-
-                entity.Property(e => e.EspecialistaCodigo).HasColumnName("especialista_codigo");
 
                 entity.Property(e => e.SecretarioCodigo).HasColumnName("secretario_codigo");
 
@@ -591,12 +583,6 @@ namespace Repositorio.Models
                     .HasForeignKey(d => d.ClinicaCodigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Secretario_Especialista_Clinica");
-
-                entity.HasOne(d => d.EspecialistaCodigoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.EspecialistaCodigo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Secretario_Especialista_Clinica_Especialista");
 
                 entity.HasOne(d => d.SecretarioCodigoNavigation)
                     .WithMany()
@@ -611,18 +597,10 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Codigo).HasColumnName("codigo");
 
-                entity.Property(e => e.ClicnicaCodigo).HasColumnName("clicnica_codigo");
-
                 entity.Property(e => e.Numero)
                     .HasColumnName("numero")
                     .HasMaxLength(15)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.ClicnicaCodigoNavigation)
-                    .WithMany(p => p.Telefone)
-                    .HasForeignKey(d => d.ClicnicaCodigo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Telefone_Clinica");
             });
 
             modelBuilder.Entity<TelefoneClinica>(entity =>
@@ -668,11 +646,6 @@ namespace Repositorio.Models
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Sigla)
-                    .HasColumnName("sigla")
-                    .HasMaxLength(2)
                     .IsUnicode(false);
             });
 

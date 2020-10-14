@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace TelemedUnividas
 {
@@ -24,6 +26,7 @@ namespace TelemedUnividas
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSession();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 

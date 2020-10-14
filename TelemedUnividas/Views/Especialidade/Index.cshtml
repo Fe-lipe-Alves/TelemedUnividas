@@ -1,0 +1,108 @@
+﻿@model IEnumerable<TelemedUnividas.Models.EspecialidadeModel>
+
+@{
+    ViewData["Title"] = "Especialidade";
+    Layout = "~/Views/Shared/_LayoutLogged.cshtml";
+}
+
+
+<section class="ftco-section contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex contact-info">
+            <div class="col-12 col-md-12">
+                <h2 class="h4">Especialidades</h2>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-12 text-right py-3">
+                <button id="btnAdicionar" class="btn  py-2 px-3 btn-sm btn-primary btn-outline-primary">Adicionar</button>
+            </div>
+            <div id="adicionar" class="col-12 displayNone">
+                <form asp-controller="Especialidade" asp-action="Create" class="row">
+                    <div class="col-12">
+                        <h6>Adicionar nova especialidade</h6>
+                    </div>
+                    <div class="col-12 col-md-10 form-group">
+                        <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Descrição *">
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="form-group text-center">
+                            <input type="submit" value="Cadastrar" class="btn btn- py-2 px-3">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12 pr-md-5">
+                @if (Model.Count() > 0)
+                {
+                    <table class="table">
+                        <thead>
+                            <tr class="d-flex">
+                                <th class="col-10">
+                                    @Html.DisplayNameFor(model => model.Descricao)
+                                </th>
+                                <th class="col-2 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="itemLista d-flex" data-item="@item.Codigo">
+                                    <td class="col-10 dadosItem">
+                                        @Html.DisplayFor(modelItem => item.Descricao)
+                                    </td>
+                                    <td class="col-2 text-right acaoItem">
+                                        <a class="cursor-pointer small btnEditar">Editar</a>
+                                        <a class="cursor-pointer small btnRemover">Remover</a>
+                                    </td>
+                                </tr>
+                                <tr class="col-10 editItem ativo displayNone" data-item="@item.Codigo">
+                                    <td>
+                                        <form asp-controller="Especialidade" asp-action="Edit" class="row formEditItem">
+                                            <input type="hidden" name="codigo" value="@item.Codigo" />
+                                            <div class="col-12 col-md-10 form-group mb-0">
+                                                <input type="text" name="descricao" id="inputDescricao" class="form-control" placeholder="Descrição *" value="@Html.DisplayFor(modelItem => item.Descricao)">
+                                            </div>
+                                            <div class="col-12 col-md-2 d-flex align-items-center justify-content-around noLoad">
+                                                <input type="submit" value="Salvar" class="btn btn-sm btn-primary btn-outline-primary py-1 px-2">
+                                                <button type="button" class="btnCancelarEditar btn btn-sm btn-light py-1 px-2">Cancelar</button>
+                                            </div>
+                                            <div class="col-12 col-md-2 load displayNone">
+                                                <svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"></circle><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"></circle></svg>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr class="col-10 deleteItem ativo displayNone" data-item="@item.Codigo">
+                                    <td>
+                                        <form asp-controller="Especialidade" asp-action="Delete" class="row formDeleteItem">
+                                            <input type="hidden" name="codigo" value="@item.Codigo" />
+                                            <div class="col-12 col-md-12 d-flex align-items-center justify-content-around">
+                                                <p class="feedback">Deseja remover o item @Html.DisplayFor(modelItem => item.Descricao)</p>
+                                            </div>
+                                            <div class="col-12 col-md-12 text-center noLoad">
+                                                <button type="button" class="btnCancelarRemover btn btn-sm btn-light py-1 px-2">Cancelar</button>
+                                                <input type="submit" value="Remover" class="btn btn-sm btn-danger py-1 px-2">
+                                            </div>
+                                            <div class="col-12 col-md-12 load displayNone" style="height: 31px">
+                                                <svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"></circle><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"></circle></svg>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <h6>Não há especialidades cadastradas. <button id="btnAdicionar" class="btn btn-sm btn-outline-primary">Adicionar</button></h6>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts { 
+    <script src="~/js/Paginas/especialidade.js"></script>
+}

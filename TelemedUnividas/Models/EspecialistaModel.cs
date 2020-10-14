@@ -63,6 +63,7 @@ namespace TelemedUnividas.Models
         public EspecialistaModel()
         {
             this.repositorio = new EspecialistaRepositorio();
+            base.repositorio = this.repositorio;
         }
 
         public EspecialistaModel(int codigo, int? enderecoCodigo, string nome, string sobrenome, string cpf, string crm, string telefone, string email, string senha, DateTime? dataNascimento)
@@ -79,6 +80,7 @@ namespace TelemedUnividas.Models
             this.DataNascimento = dataNascimento;
 
             this.repositorio = new EspecialistaRepositorio();
+            base.repositorio = this.repositorio;
         }
         #endregion
 

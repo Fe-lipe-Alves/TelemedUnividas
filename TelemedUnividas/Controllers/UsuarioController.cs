@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TelemedUnividas.Models;
+using System.Web;
 
 namespace TelemedUnividas.Controllers
 {
@@ -29,7 +30,102 @@ namespace TelemedUnividas.Controllers
         {
             try
             {
-                var x = form;
+                // Dados Pessoal
+                string tipoUsuario = form["tipoUsuario"];
+                string nome = form["nome"];
+                string sobrenome = form["sobrenome"];
+                string cpf = form["cpf"];
+                DateTime dataNascimento = DateTime.Parse(form["dataNascimento"]);
+                string telefone = form["telefone"];
+                string email = form["email"];
+
+                // Dados Endereço
+                string rua = form["rua"];
+                string numero = form["numero"];
+                string complemento = form["complemento"];
+                string bairro = form["bairro"];
+                int cidade = int.Parse(form["cidade"]);
+
+                if (
+                    tipoUsuario != "" &&
+                    nome != "" &&
+                    sobrenome != "" &&
+                    cpf != "" &&
+                    dataNascimento != null &&
+                    telefone != "" &&
+                    email != "" &&
+                    rua != "" &&
+                    numero != "" &&
+                    bairro != "" &&
+                    cidade != 0
+                )
+                {
+                    EnderecoModel endereco = new EnderecoModel();
+                    endereco.CidadeCodigo = cidade;
+                    endereco.Logradouro = rua;
+                    endereco.Numero = numero;
+                    endereco.Complemento = complemento;
+                    //endereco.bairro = bairro;
+                    endereco.Salvar();
+
+                    if (tipoUsuario == "paciente")
+                    {
+                        PacienteModel paciente = new PacienteModel()
+                        {
+                            Nome = nome,
+                            Sobrenome = sobrenome,
+                            Cpf = cpf,
+                            DataNascimento = dataNascimento,
+                            Telefone = telefone,
+                            Email = email,
+                            EnderecoCodigo = endereco.Codigo
+                        };
+
+                        paciente.Salvar();
+                    } else if(tipoUsuario == "especialista")
+                    {
+                        EspecialistaModel especialista = new EspecialistaModel()
+                        {
+                            Nome = nome,
+                            Sobrenome = sobrenome,
+                            Cpf = cpf,
+                            DataNascimento = dataNascimento,
+                            Telefone = telefone,
+                            Email = email,
+                            EnderecoCodigo = endereco.Codigo
+                        };
+
+                        especialista.Salvar();
+                    } else if (tipoUsuario == "secretario")
+                    {
+                        int clinica = int.Parse(form["clinicaSecretario"]);
+
+                        if(clinica != 0)
+                        {
+                            SecretarioModel secretario = new SecretarioModel()
+                            {
+                                Nome = nome,
+                                Sobrenome = sobrenome,
+                                Cpf = cpf,
+                                DataNascimento = dataNascimento,
+                                Telefone = telefone,
+                                Email = email,
+                                EnderecoCodigo = endereco.Codigo
+                            };
+
+                            secretario.Salvar();
+                        } else
+                        {
+                            // clinica não informada
+                        }
+                    } else
+                    {
+                        // tipo de usuário não encontrado
+                    }
+                } else
+                {
+                    //dados incorretos
+                }
             }
             catch (Exception ex)
             {
@@ -54,34 +150,35 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         public IActionResult Entrar(IFormCollection form)
         {
+            PacienteModel paciente = null;
+            EspecialistaModel especialista = null;
+            SecretarioModel secretario = null;
+
             try
             {
                 string email = form["email"];
                 string senha = form["senha"];
-
-                if(email != "" && senha != "")
+                             
+                if (email != "" && senha != "")
                 {
-                    PacienteModel paciente = (new PacienteModel()).Login(email, senha);
-                    if(paciente != null)
+                    paciente = (new PacienteModel()).Login(email, senha);
+                    if (paciente != null)
                     {
+                        
 
+                        return View();
                     }
 
-                    EspecialistaModel especialista = (new EspecialistaModel()).Login(email, senha);
+                    especialista = (new EspecialistaModel()).Login(email, senha);
                     if (especialista != null)
                     {
-
+                        return View();
                     }
 
-                    SecretarioModel secretario = (new SecretarioModel()).Login(email, senha);
+                    secretario = (new SecretarioModel()).Login(email, senha);
                     if (secretario != null)
                     {
-
-                    }
-
-                    if(paciente == null && especialista == null && secretario == null)
-                    {
-
+                        return View();
                     }
                 } else
                 {
@@ -92,6 +189,7 @@ namespace TelemedUnividas.Controllers
             {
                 ViewData["erro"] = new { Mensagem = ex.Message };
             }
+
             return View();
         }
 

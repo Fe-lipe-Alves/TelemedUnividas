@@ -51,34 +51,34 @@
                         <div class="col-6">
                             <h6>Dados Pessoal</h6>
                             <div class="form-group">
-                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome *">
+                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome *" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="sobrenome" id="sobrenome" class="form-control" placeholder="Sobrenome *">
+                                <input type="text" name="sobrenome" id="sobrenome" class="form-control" placeholder="Sobrenome *" required>
                             </div>
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
-                                    <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF *">
+                                    <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF *" required>
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
-                                    <input type="text" name="dataNascimento" id="dataNascimento" class="form-control" placeholder="Data de Nascimento *" onfocus="(this.type='date')" onblur="(this.type='text')">
+                                    <input type="text" name="dataNascimento" id="dataNascimento" class="form-control" placeholder="Data de Nascimento *" required onfocus="(this.type='date')" onblur="(this.type='text')">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="Telefone *">
+                                <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="Telefone *" required>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <h6>Endereço</h6>
                             <div class="form-group">
-                                <input type="text" name="rua" id="rua" class="form-control" placeholder="Rua *">
+                                <input type="text" name="rua" id="rua" class="form-control" placeholder="Rua *" required>
                             </div>
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
-                                    <input type="text" name="numero" id="numero" class="form-control" placeholder="Número *">
+                                    <input type="text" name="numero" id="numero" class="form-control" placeholder="Número *" required>
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
                                     <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento">
@@ -86,7 +86,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
-                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *">
+                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *" required>
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
                                     <select type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade *" required>
@@ -110,12 +110,12 @@
                         <div class="col-12 areaEspecialista displayNone">
                             <div class="input-group">
                                 <input type="hidden" name="especialidadesClinicas" id="especialidadesClinicas" />
-                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *" required>
+                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *">
                                     <option value="" disabled selected hidden>Clinica *</option>
                                     <option value="1">Hospital das Clínicas</option>
                                     <option value="2">Clínica São Paulo</option>
                                 </select>
-                                <select class="form-control" id="selectEspecialidade" required>
+                                <select class="form-control" id="selectEspecialidade">
                                     <option value="" disabled selected hidden>Especialidade *</option>
                                     <option value="1">Clínico Geral</option>
                                     <option value="2">Pediatra</option>
@@ -132,8 +132,8 @@
                         </div>
                         <div class="col-12 col-md-6 areaSecretario displayNone">
                             <div class="form-group">
-                                <input type="hidden" name="clinica" id="clinica" />
-                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *" required>
+                                <input type="hidden" name="clinicaSecretario" id="clinicaSecretario" />
+                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *">
                                     <option value="" disabled selected hidden>Clinica *</option>
                                     <option value="1">Hospital das Clínicas</option>
                                     <option value="2">Clínica São Paulo</option>

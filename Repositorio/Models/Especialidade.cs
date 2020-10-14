@@ -6,6 +6,6 @@ namespace Repositorio.Models
     public partial class Especialidade
     {
         public int Codigo { get; set; }
-        public byte[] Descricao { get; set; }
+        public string Descricao { get; set; }
     }
 }

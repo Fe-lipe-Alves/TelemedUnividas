@@ -2793,7 +2793,7 @@ textarea.form-control {
 
 
 
-#ftco-loader {
+.ftco-loader {
 	position: fixed;
 	width:  96px;
 	height: 96px;
@@ -2809,7 +2809,7 @@ textarea.form-control {
 	z-index:1000;
 }
 
-#ftco-loader.fullscreen {
+.ftco-loader.fullscreen {
 	padding:  0;
 	left:  0;
 	top:  0;
@@ -2821,13 +2821,13 @@ textarea.form-control {
 	box-shadow: none;
 }
 
-#ftco-loader.show {
+.ftco-loader.show {
 	transition: opacity .4s ease-out, visibility 0s linear 0s;
 	visibility: visible;
 	opacity: 1;
 }
 
-#ftco-loader .circular {
+ .circular {
   animation: loader-rotate 2s linear infinite;
   position: absolute;
   left:  calc(50% - 24px);
@@ -2836,7 +2836,7 @@ textarea.form-control {
   transform: rotate(0deg);
 }
 
-#ftco-loader .path {
+ .path {
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
   animation: loader-dash 1.5s ease-in-out infinite;
@@ -2869,6 +2869,10 @@ textarea.form-control {
 				ESTILOS ADICIONAIS
 	-----------------------------------------------
 */
+.cursor-pointer{
+	cursor:pointer;
+}
+
 select:invalid {
 	color: lighten($black,30%) !important;
 }
@@ -2886,4 +2890,12 @@ option{
 }
 .displayNone{
 	display: none;
+}
+
+.ativo {
+	background-color: #f8f8ff;
+}
+
+.bg-white{
+	background-color: #FFFFFF;
 }

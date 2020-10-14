@@ -25,8 +25,4 @@
     <ProjectReference Include="..\Repositorio\Repositorio.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Especialidade\" />
-  </ItemGroup>
-
 </Project>

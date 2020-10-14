@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TelemedUnividas.Models;
 
 namespace TelemedUnividas.Controllers
 {
@@ -12,7 +14,10 @@ namespace TelemedUnividas.Controllers
         // GET: EspecialidadeController
         public ActionResult Index()
         {
-            return View();
+            List<EspecialidadeModel> especialidades = (new EspecialidadeModel()).Todos();
+
+
+            return View(especialidades);
         }
 
         // GET: EspecialidadeController/Details/5
@@ -34,7 +39,18 @@ namespace TelemedUnividas.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                string descricao = collection["descricao"];
+
+                if(descricao != "")
+                {
+                    EspecialidadeModel especialidade = new EspecialidadeModel();
+                    especialidade.Descricao = descricao;
+                    especialidade.Salvar();
+                    return RedirectToAction(nameof(Index));
+                } else
+                {
+                    return Redirect(ControllerContext.HttpContext.Request.Headers["Referer"]);
+                }
             }
             catch
             {
@@ -51,15 +67,39 @@ namespace TelemedUnividas.Controllers
         // POST: EspecialidadeController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public JsonResult Edit(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                int codigo = int.Parse(collection["codigo"]);
+                string descricao = collection["descricao"];
+
+                if(codigo != 0 && descricao != "")
+                {
+                    EspecialidadeModel especialidade = (new EspecialidadeModel()).Obter(codigo);
+                    especialidade.Descricao = descricao;
+                    especialidade.Salvar();
+
+                    return new JsonResult(new {
+                        success = true, 
+                        message = "Atualizado com sucesso"
+                    });
+                } else
+                {
+                    return new JsonResult(new
+                    {
+                        success = false,
+                        message = "Flaha ao atualizar"
+                    });
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = "Flaha ao atualizar" + ex.Message
+                });
             }
         }
 
@@ -72,15 +112,39 @@ namespace TelemedUnividas.Controllers
         // POST: EspecialidadeController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public JsonResult Delete(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                int codigo = int.Parse(collection["codigo"]);
+
+                if (codigo != 0)
+                {
+                    EspecialidadeModel especialidade = (new EspecialidadeModel()).Obter(codigo);
+                    especialidade.Excluir();
+
+                    return new JsonResult(new
+                    {
+                        success = true,
+                        message = "Removido com sucesso"
+                    });
+                }
+                else
+                {
+                    return new JsonResult(new
+                    {
+                        success = false,
+                        message = "Flaha ao remover"
+                    });
+                }
             }
             catch
             {
-                return View();
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = "Flaha ao remover"
+                });
             }
         }
     }
