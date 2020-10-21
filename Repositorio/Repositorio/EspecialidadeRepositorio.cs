@@ -9,7 +9,7 @@ namespace Repositorio.Repositorio
     public class EspecialidadeRepositorio : BaseRepositorio<Especialidade>
     {
 
-        public List<Especialidade> Localizar(string pesquisa)
+        public List<Especialidade> Localizar(string pesquisa = "")
         {
             List<Especialidade> especialidades = null;
             using (TelemedUnividasContext db = new TelemedUnividasContext())

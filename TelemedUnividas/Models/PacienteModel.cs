@@ -86,6 +86,11 @@ namespace TelemedUnividas.Models
             Paciente paciente = this.repositorio.Login(email, senha);
             return PacienteModel.ReverterModel(paciente);
         }
+
+        public String NomeCompleto()
+        {
+            return this.Nome + " " + this.Sobrenome;
+        }
         #endregion
     }
 }

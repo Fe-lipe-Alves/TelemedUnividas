@@ -91,6 +91,11 @@ namespace TelemedUnividas.Models
             Secretario secretario = this.repositorio.Login(email, senha);
             return SecretarioModel.ReverterModel(secretario);
         }
+
+        public String NomeCompleto()
+        {
+            return this.Nome + " " + this.Sobrenome;
+        }
         #endregion
     }
 }

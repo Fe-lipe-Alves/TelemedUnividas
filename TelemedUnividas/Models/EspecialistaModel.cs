@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Collections;
 
 namespace TelemedUnividas.Models
 {
@@ -102,7 +103,8 @@ namespace TelemedUnividas.Models
         /// <returns></returns>
         public List<EspecialistaModel> LocalizarPorClinica(int clinica_codigo)
         {
-            return null;
+            List<Especialista> especialistas = this.repositorio.LocalizarPorClinica(clinica_codigo);
+            return EspecialistaModel.ReverterModelList(especialistas);
         }
 
         /// <summary>
@@ -117,6 +119,26 @@ namespace TelemedUnividas.Models
 
             Especialista especialista = this.repositorio.Login(email, senha);
             return EspecialistaModel.ReverterModel(especialista);
+        }
+
+
+        /// <summary>
+        /// Cria um vinculo entre o <see cref="Especialista"/>, a <see cref="Especialidade"/> e a <see cref="Clinica"/>
+        /// </summary>
+        /// <param name="especialidade"></param>
+        /// <param name="clinica"></param>
+        public void SalvarEspecialidadesClinicas(EspecialidadeModel especialidade, ClinicaModel clinica)
+        {
+            Especialidade especialidadeEntity = EspecialidadeModel.ConverterModel(especialidade);
+            Clinica clinicaEntity = ClinicaModel.ConverterModel(clinica);
+            Especialista especialistaEntity = EspecialistaModel.ConverterModel(this);
+
+            this.repositorio.SalvarEspecialidadesClinicas(especialidadeEntity, especialistaEntity, clinicaEntity);
+        }
+
+        public String NomeCompleto()
+        {
+            return this.Nome + " " + this.Sobrenome;
         }
         #endregion
     }

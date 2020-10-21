@@ -1,6 +1,7 @@
 ﻿using Repositorio.Models;
 using Repositorio.Repositorio;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TelemedUnividas.Models
@@ -18,6 +19,10 @@ namespace TelemedUnividas.Models
         public string Descricao { get; set; }
         #endregion
 
+        #region Propriedades Auxiliares
+        public new EspecialidadeRepositorio repositorio { get; set; }
+        #endregion
+
         #region Construtores
         public EspecialidadeModel()
         {
@@ -33,8 +38,14 @@ namespace TelemedUnividas.Models
             this.repositorio = new EspecialidadeRepositorio();
             base.repositorio = this.repositorio;
         }
+        #endregion
 
-
+        #region Métodos
+        public List<EspecialidadeModel> Localizar(string pesquisa = "")
+        {
+            List<Especialidade> especialidadeEntities = this.repositorio.Localizar(pesquisa);
+            return EspecialidadeModel.ReverterModelList(especialidadeEntities);
+        }
         #endregion
     }
 }

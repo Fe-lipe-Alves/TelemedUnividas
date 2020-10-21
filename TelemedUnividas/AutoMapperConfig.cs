@@ -25,6 +25,15 @@ namespace TelemedUnividas
 
                 cfg.CreateMap<Endereco, EnderecoModel>();
                 cfg.CreateMap<EnderecoModel, Endereco>();
+
+                cfg.CreateMap<Cidade, CidadeModel>();
+                cfg.CreateMap<CidadeModel, Cidade>();
+
+                cfg.CreateMap<UnidadeFederativa, UnidadeFederativaModel>();
+                cfg.CreateMap<UnidadeFederativaModel, UnidadeFederativa>();
+
+                cfg.CreateMap<Clinica, ClinicaModel>();
+                cfg.CreateMap<ClinicaModel, Clinica>();
             });
             return config;
         }

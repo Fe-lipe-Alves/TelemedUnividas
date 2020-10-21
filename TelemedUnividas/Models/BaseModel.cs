@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Repositorio.Repositorio;
 using AutoMapper;
 using Repositorio.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TelemedUnividas.Models
 {
@@ -31,7 +32,9 @@ namespace TelemedUnividas.Models
             }
             else
             {
-                this.repositorio.Inserir(entidade);
+                Entity ent = this.repositorio.Inserir(entidade);
+                BaseModel<Entity, Model> model = BaseModel<Entity, Model>.ReverterModel(ent) as BaseModel<Entity, Model>;
+                this.Codigo = model.Codigo;
             }
         }
 

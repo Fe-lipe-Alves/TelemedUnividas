@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TelemedUnividas.Models;
 using System.Web;
+using Repositorio.Models;
+using System.Collections;
+using Repositorio.Helpers;
 
 namespace TelemedUnividas.Controllers
 {
@@ -17,6 +20,11 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         public IActionResult Cadastrar()
         {
+            ViewData["cidades"] = (new CidadeModel()).Localizar();
+            ViewData["estados"] = (new UnidadeFederativaModel()).Localizar();
+            ViewData["clinicas"] = (new ClinicaModel()).Localizar();
+            ViewData["especialidades"] = (new EspecialidadeModel()).Localizar();
+
             return View();
         }
 
@@ -60,42 +68,81 @@ namespace TelemedUnividas.Controllers
                     cidade != 0
                 )
                 {
+                    String senha = Senha.Gerar();
+
                     EnderecoModel endereco = new EnderecoModel();
                     endereco.CidadeCodigo = cidade;
                     endereco.Logradouro = rua;
                     endereco.Numero = numero;
                     endereco.Complemento = complemento;
-                    //endereco.bairro = bairro;
+                    endereco.Bairro = bairro;
                     endereco.Salvar();
 
                     if (tipoUsuario == "paciente")
                     {
-                        PacienteModel paciente = new PacienteModel()
-                        {
-                            Nome = nome,
-                            Sobrenome = sobrenome,
-                            Cpf = cpf,
-                            DataNascimento = dataNascimento,
-                            Telefone = telefone,
-                            Email = email,
-                            EnderecoCodigo = endereco.Codigo
-                        };
+                        double coparticipacao = double.Parse(form["coparticipacao"]);
 
-                        paciente.Salvar();
+                        if(coparticipacao != 0.0)
+                        {
+                            // Carrega os dados do objeto
+                            PacienteModel paciente = new PacienteModel()
+                            {
+                                Nome = nome,
+                                Sobrenome = sobrenome,
+                                Cpf = cpf,
+                                DataNascimento = dataNascimento,
+                                Telefone = telefone,
+                                Email = email,
+                                Senha = Hash.GetHashString(senha),
+                                EnderecoCodigo = endereco.Codigo
+                            };
+                            paciente.Salvar();
+                        }
                     } else if(tipoUsuario == "especialista")
                     {
-                        EspecialistaModel especialista = new EspecialistaModel()
-                        {
-                            Nome = nome,
-                            Sobrenome = sobrenome,
-                            Cpf = cpf,
-                            DataNascimento = dataNascimento,
-                            Telefone = telefone,
-                            Email = email,
-                            EnderecoCodigo = endereco.Codigo
-                        };
+                        string crm = form["crm"];
+                        string especialidadesClinicas = form["especialidadesClinicas"];
+                        // Obtem a coleção de clinicas e suas respectivas especialidades
+                        string[] especialidadesClinicasVet = especialidadesClinicas.Split(";");
 
-                        especialista.Salvar();
+                        if (crm != "" && especialidadesClinicas != "" && especialidadesClinicasVet.Length > 0)
+                        {
+                            // Carrega objeto
+                            EspecialistaModel especialista = new EspecialistaModel()
+                            {
+                                Nome = nome,
+                                Sobrenome = sobrenome,
+                                Cpf = cpf,
+                                DataNascimento = dataNascimento,
+                                Telefone = telefone,
+                                Email = email,
+                                Senha = Hash.GetHashString(senha),
+                                EnderecoCodigo = endereco.Codigo
+                            };
+                            especialista.Salvar();
+
+                            // Percorre todas as uniões de clinicas e especialidades
+                            foreach (string especialidadeClinica in especialidadesClinicasVet)
+                            {
+                                string[] separa = especialidadeClinica.Split(":");
+                                ClinicaModel clinica = (new ClinicaModel()).Obter(int.Parse(separa[0]));
+                                EspecialidadeModel especialidade = (new EspecialidadeModel()).Obter(int.Parse(separa[1]));
+
+                                // Caso um dos modelos estiver vazio retorna um erro
+                                if (clinica == null)
+                                {
+                                    throw new Exception("Clinica Inválida");
+                                }
+                                if (especialidade == null)
+                                {
+                                    throw new Exception("Clinica Inválida");
+                                }
+
+                                // Salva o vinculo Especialista, Especialidade e Clinica
+                                especialista.SalvarEspecialidadesClinicas(especialidade, clinica);
+                            }
+
+                        }
                     } else if (tipoUsuario == "secretario")
                     {
                         int clinica = int.Parse(form["clinicaSecretario"]);
@@ -110,8 +157,11 @@ namespace TelemedUnividas.Controllers
                                 DataNascimento = dataNascimento,
                                 Telefone = telefone,
                                 Email = email,
+                                Senha = Hash.GetHashString(senha),
                                 EnderecoCodigo = endereco.Codigo
                             };
+
+                            // ToDo // Verificar como esta o banco com a integração do secretario, especialista e clinica
 
                             secretario.Salvar();
                         } else
@@ -122,6 +172,9 @@ namespace TelemedUnividas.Controllers
                     {
                         // tipo de usuário não encontrado
                     }
+
+                    // Aqui segue o Fluxo normal e envia uma mensagem de e-mail
+                    // com as informações de login
                 } else
                 {
                     //dados incorretos

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Repositorio.Repositorio
 {
@@ -15,13 +16,15 @@ namespace Repositorio.Repositorio
         /// Insere um objeto <typeparamref name="Entity"/> no banco de dados
         /// </summary>
         /// <param name="entidade"></param>
-        public virtual void Inserir(Entity entidade)
+        public virtual Entity Inserir(Entity entidade)
         {
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
                 db.Add(entidade);
                 db.SaveChanges();
             }
+
+            return entidade;
         }
 
         /// <summary>

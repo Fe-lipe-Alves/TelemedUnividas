@@ -43,7 +43,8 @@ namespace Repositorio.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=192.168.0.105,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
+                //optionsBuilder.UseSqlServer("Server=192.168.0.106,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
+                optionsBuilder.UseSqlServer("Server=192.168.15.34,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
             }
         }
 
@@ -228,6 +229,11 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Codigo).HasColumnName("codigo");
 
+                entity.Property(e => e.Bairro)
+                    .HasColumnName("bairro")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CidadeCodigo).HasColumnName("cidade_codigo");
 
                 entity.Property(e => e.Complemento)
@@ -343,7 +349,7 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.EspecialidadeCodigo).HasColumnName("especialidade_codigo");
 
-                entity.Property(e => e.EspecialisataCodigo).HasColumnName("especialisata_codigo");
+                entity.Property(e => e.EspecialistaCodigo).HasColumnName("especialista_codigo");
 
                 entity.HasOne(d => d.ClinicaCodigoNavigation)
                     .WithMany()
@@ -357,9 +363,9 @@ namespace Repositorio.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Especialidade_Especialista_Especialidade");
 
-                entity.HasOne(d => d.EspecialisataCodigoNavigation)
+                entity.HasOne(d => d.EspecialistaCodigoNavigation)
                     .WithMany()
-                    .HasForeignKey(d => d.EspecialisataCodigo)
+                    .HasForeignKey(d => d.EspecialistaCodigo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Especialidade_Especialista_Especialista");
             });

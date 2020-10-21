@@ -48,7 +48,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        @* Dados Obrigatórios *@
+                        <div class="col-12 col-md-6">
                             <h6>Dados Pessoal</h6>
                             <div class="form-group">
                                 <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome *" required>
@@ -71,7 +72,7 @@
                                 <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-12 col-md-6">
                             <h6>Endereço</h6>
                             <div class="form-group">
                                 <input type="text" name="rua" id="rua" class="form-control" placeholder="Rua *" required>
@@ -81,20 +82,43 @@
                                     <input type="text" name="numero" id="numero" class="form-control" placeholder="Número *" required>
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-12">
                                     <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
-                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *" required>
+                                    <select type="text" name="estado" id="estado" class="form-control" placeholder="Estado *" required>
+                                        <option value="" disabled selected hidden>Estado *</option>
+                                        @foreach (UnidadeFederativaModel uf in ((List<UnidadeFederativaModel>)ViewData["estados"]))
+                                        {
+                                            <option value="@uf.Codigo">@uf.Nome</option>
+                                        }
+                                    </select>
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
                                     <select type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade *" required>
                                         <option value="" disabled selected hidden>Cidade *</option>
-                                        <option value="1">Presidente Prudente</option>
-                                        <option value="2">Quatá</option>
+                                        @foreach (CidadeModel cidade in ((List<CidadeModel>)ViewData["cidades"]))
+                                        {
+                                            <option value="@cidade.Codigo">@cidade.Nome</option>
+                                        }
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+
+                        @* Área Paciente *@
+                        <div class="col-12 pt-5 areaPaciente">
+                            <h6>Dados Financeiros</h6>
+                        </div>
+                        <div class="col-12 col-md-6 areaPaciente">
+                            <div class="form-group">
+                                <input type="text" name="coparticipacao" id="coparticipacao" class="form-control pacienteRequired" placeholder="Coparticipação  *" required>
                             </div>
                         </div>
 
@@ -104,24 +128,28 @@
                         </div>
                         <div class="col-12 col-md-6 areaEspecialista displayNone">
                             <div class="form-group">
-                                <input type="text" name="crm" id="crm" class="form-control" placeholder="CRM *">
+                                <input type="text" name="crm" id="crm" class="form-control especialidadeRequired" placeholder="CRM *">
                             </div>
                         </div>
                         <div class="col-12 areaEspecialista displayNone">
                             <div class="input-group">
-                                <input type="hidden" name="especialidadesClinicas" id="especialidadesClinicas" />
+                                <input type="hidden" name="especialidadesClinicas" id="especialidadesClinicas" class="especialidadeRequired" />
                                 <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *">
                                     <option value="" disabled selected hidden>Clinica *</option>
-                                    <option value="1">Hospital das Clínicas</option>
-                                    <option value="2">Clínica São Paulo</option>
+                                    @foreach (ClinicaModel clinica in ((List<ClinicaModel>) ViewData["clinicas"]))
+                                    {
+                                        <option value="@clinica.Codigo">@clinica.Nome</option>
+                                    }
                                 </select>
                                 <select class="form-control" id="selectEspecialidade">
                                     <option value="" disabled selected hidden>Especialidade *</option>
-                                    <option value="1">Clínico Geral</option>
-                                    <option value="2">Pediatra</option>
+                                    @foreach (EspecialidadeModel especialidade in ((List<EspecialidadeModel>)ViewData["especialidades"]))
+                                    {
+                                        <option value="@especialidade.Codigo">@especialidade.Descricao</option>
+                                    }
                                 </select>
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary border-radius-0" type="button">Adicionar</button>
+                                    <button id="btnAddEspecialidadeClinica" class="btn btn-outline-secondary border-radius-0" type="button">Adicionar</button>
                                 </div>
                             </div>
                         </div>
@@ -130,14 +158,25 @@
                         <div class="col-12 pt-5 areaSecretario displayNone">
                             <h6>Dados Secretário</h6>
                         </div>
-                        <div class="col-12 col-md-6 areaSecretario displayNone">
-                            <div class="form-group">
-                                <input type="hidden" name="clinicaSecretario" id="clinicaSecretario" />
-                                <select type="text" name="selectClinica" id="selectClinica" class="form-control" placeholder="Clínica *">
+                        <div class="col-12 areaSecretario displayNone">
+                            <div class="input-group">
+                                <input type="hidden" name="clinicaEspecialistaSecretario" id="clinicaEspecialistaSecretario" class="secretarioRequired" />
+                                <select type="text" name="selectClinicaSecretario" id="selectClinicaSecretario" class="form-control">
                                     <option value="" disabled selected hidden>Clinica *</option>
-                                    <option value="1">Hospital das Clínicas</option>
-                                    <option value="2">Clínica São Paulo</option>
+                                    @foreach (ClinicaModel clinica in ((List<ClinicaModel>)ViewData["clinicas"]))
+                                    {
+                                        <option value="@clinica.Codigo">@clinica.Nome</option>
+                                    }
                                 </select>
+                                <select class="form-control" name="selectEspecialista" id="selectEspecialista">
+                                    <option value="" id="placeholder" disabled selected hidden>Especialidade *</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button id="btnAddEspecialidadeClinica" class="btn btn-outline-secondary border-radius-0" type="button">Adicionar</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                
                             </div>
                         </div>
 
