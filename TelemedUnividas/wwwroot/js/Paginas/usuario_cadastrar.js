@@ -5,7 +5,15 @@ class EspecialidadeClinica {
     }
 }
 
+class EspecialistaClinica(){
+    constructor(especialista, clinica) {
+        this.especialista = especialista;
+        this.clinica = clinica;
+    }
+}
+
 var espCliVetor = new Array();
+var secEspClinicaVetor = new Array();
 
 $(document).ready(function () {
     /**
@@ -53,32 +61,37 @@ $(document).ready(function () {
     $('#btnAddEspecialidadeClinica').on('click', function () {
         let especialidade = parseInt($('#selectEspecialidade').val());
         let clinica = parseInt($('#selectClinica').val());
-        let espCli = new EspecialidadeClinica(especialidade, clinica);
 
         try {
-            if (!(isNaN(espCli.especialidade) && isNaN(espCli.clinica))) {
-                if (isNaN(espCli.especialidade)) {
+            if (!(isNaN(especialidade) && isNaN(clinica))) {
+                if (isNaN(especialidade)) {
                     $('#selectEspecialidade').val('').addClass('is-invalid');
                 } else {
-                    if (isNaN(espCli.clinica)) {
+                    if (isNaN(clinica)) {
                         $('#selectClinica').val('').addClass('is-invalid');
                     } else {
                         if (espCliVetor.length > 0) {
+                            let existe = false; 
                             for (var i = 0; i < espCliVetor.length; i++) {
-                                console.log((especialidade != espCliVetor[i].especialidade && clinica != espCliVetor[i].clinica));
-                                if (especialidade != espCliVetor[i].especialidade && clinica != espCliVetor[i].clinica) {
-                                    let id = espCliVetor.length;
-                                    espCliVetor[id] = espCli;
-                                    $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
-                                    $('#selectEspecialidade').val('');
-                                    $('#selectClinica').val('');
-                                } else {
-                                    console.log('Já existe');
+                                console.log((especialidade !== espCliVetor[i].especialidade) && (clinica !== espCliVetor[i].clinica));
+                                console.log(especialidade+' = '+espCliVetor[i].especialidade+' | '+clinica+' = '+espCliVetor[i].clinica);
+                                if ((especialidade === espCliVetor[i].especialidade) && (clinica === espCliVetor[i].clinica)) {
+                                    existe = true;
                                 }
+                            }
+
+                            if (!existe) {
+                                let id = espCliVetor.length;
+                                espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
+                                $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
+                                $('#selectEspecialidade').val('');
+                                $('#selectClinica').val('');
+                            } else {
+                                // alertar valores já existentes na lista
                             }
                         } else {
                             let id = espCliVetor.length;
-                            espCliVetor[id] = espCli;
+                            espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
                             $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
                             $('#selectEspecialidade').val('');
                             $('#selectClinica').val('');
@@ -94,6 +107,9 @@ $(document).ready(function () {
         }
     });
 
+    /**
+     * Obtem lista de especialistas de acordo com a clínica selecionada
+     */
     $('#selectClinicaSecretario').on('change', function () {
         let id_clinica = parseInt($(this).val());
         let baseUrl = window.location.origin;
@@ -112,8 +128,6 @@ $(document).ready(function () {
                             for (var i = 0; i < response.data.length; i++) {
                                 $('#selectEspecialista').append('<option value="' + response.data[i].Codigo + '">' + response.data[i].Nome +'</option>');
                             }
-
-
                         }
                     } else {
                         ShowError(response.message);
@@ -122,6 +136,55 @@ $(document).ready(function () {
             });
         } else {
             // Erro
+        }
+    });
+
+    $('#btnAddEspecialistaSecretario').on('click', function () {
+        let especialista = parseInt($('#selectEspecialista').val());
+        let clinica = parseInt($('#selectClinicaSecretario').val());
+
+        try {
+            if (!(isNaN(especialista) && isNaN(clinica))) {
+                if (isNaN(especialista)) {
+                    $('#selectEspecialista').val('').addClass('is-invalid');
+                } else {
+                    if (isNaN(clinica)) {
+                        $('#selectClinicaSecretario').val('').addClass('is-invalid');
+                    } else {
+                        if (secEspClinicaVetor.length > 0) {
+                            let existe = false;
+                            for (var i = 0; i < secEspClinicaVetor.length; i++) {
+                                console.log((especialista !== secEspClinicaVetor[i].especialista) && (clinica !== secEspClinicaVetor[i].clinica));
+                                console.log(especialista + ' = ' + secEspClinicaVetor[i].especialista + ' | ' + clinica + ' = ' + secEspClinicaVetor[i].clinica);
+                                if ((especialista === secEspClinicaVetor[i].especialista) && (clinica === secEspClinicaVetor[i].clinica)) {
+                                    existe = true;
+                                }
+                            }
+
+                            if (!existe) {
+                                let id = secEspClinicaVetor.length;
+                                secEspClinicaVetor[id] = new EspecialistaClinica(especialista, clinica);
+                                $('#clinicaEspecialistaSecretario').val(JSON.stringify(secEspClinicaVetor));
+                                $('#selectEspecialista').val('');
+                                $('#selectClinicaSecretario').val('');
+                            } else {
+                                // alertar valores já existentes na lista
+                            }
+                        } else {
+                            let id = secEspClinicaVetor.length;
+                            secEspClinicaVetor[id] = new EspecialistaClinica(especialista, clinica);
+                            $('#clinicaEspecialistaSecretario').val(JSON.stringify(secEspClinicaVetor));
+                            $('#selectEspecialista').val('');
+                            $('#selectClinicaSecretario').val('');
+                        }
+                    }
+                }
+            } else {
+                $('#selectEspecialista').val('').addClass('is-invalid');
+                $('#selectClinicaSecretario').val('').addClass('is-invalid');
+            }
+        } catch (ex) {
+            console.log(ex.message);
         }
     });
 

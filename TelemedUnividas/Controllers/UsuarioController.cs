@@ -20,10 +20,32 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         public IActionResult Cadastrar()
         {
-            ViewData["cidades"] = (new CidadeModel()).Localizar();
-            ViewData["estados"] = (new UnidadeFederativaModel()).Localizar();
-            ViewData["clinicas"] = (new ClinicaModel()).Localizar();
-            ViewData["especialidades"] = (new EspecialidadeModel()).Localizar();
+            try
+            {
+                ViewData["cidades"] = (new CidadeModel()).Localizar();
+                ViewData["estados"] = (new UnidadeFederativaModel()).Localizar();
+                ViewData["clinicas"] = (new ClinicaModel()).Localizar();
+                ViewData["especialidades"] = (new EspecialidadeModel()).Localizar();
+            }
+            catch (Exception)
+            {
+                List<CidadeModel> cidades = new List<CidadeModel>();
+                cidades.Add(new CidadeModel(1, 1, "Presidente Prudente"));
+                cidades.Add(new CidadeModel(2, 1, "Quatá"));
+
+                List<ClinicaModel> clinicas = new List<ClinicaModel>();
+                clinicas.Add(new ClinicaModel(1, 1, "Hospital dos Olhos", "hdo@hdo.com"));
+                clinicas.Add(new ClinicaModel(2, 2, "Hospital das Clinicas", "hdc@hdc.com"));
+
+                List<EspecialidadeModel> especialidades = new List<EspecialidadeModel>();
+                especialidades.Add(new EspecialidadeModel(1, "Oftalmologia"));
+                especialidades.Add(new EspecialidadeModel(2, "Pediatria"));
+
+                ViewData["cidades"] = cidades;
+                ViewData["estados"] = new List<UnidadeFederativaModel>();
+                ViewData["clinicas"] = clinicas;
+                ViewData["especialidades"] = especialidades;
+            }
 
             return View();
         }
