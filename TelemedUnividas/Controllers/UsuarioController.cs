@@ -9,11 +9,35 @@ using System.Web;
 using Repositorio.Models;
 using System.Collections;
 using Repositorio.Helpers;
+using Newtonsoft.Json;
+using System.Text.Json;
+using Repositorio.JsonModels;
 
 namespace TelemedUnividas.Controllers
 {
     public class UsuarioController : Controller
     {
+        public IActionResult Especialistas()
+        {
+            ViewData["especialistas"] = (new EspecialistaModel()).Localizar();
+
+            return View();
+        }
+        public IActionResult Pacientes()
+        {
+            ViewData["pacientes"] = (new PacienteModel()).Localizar();
+
+            return View();
+        }
+
+        public IActionResult Secretarios()
+        {
+            ViewData["secretarios"] = (new SecretarioModel()).Localizar();
+
+            return View();
+        }
+
+
         /// <summary>
         /// Exibe a tela de cadastro
         /// </summary>
@@ -123,11 +147,9 @@ namespace TelemedUnividas.Controllers
                     } else if(tipoUsuario == "especialista")
                     {
                         string crm = form["crm"];
-                        string especialidadesClinicas = form["especialidadesClinicas"];
-                        // Obtem a coleção de clinicas e suas respectivas especialidades
-                        string[] especialidadesClinicasVet = especialidadesClinicas.Split(";");
-
-                        if (crm != "" && especialidadesClinicas != "" && especialidadesClinicasVet.Length > 0)
+                        List<EspecialidadeClinicaJsonModel> especialidadesClinicas = System.Text.Json.JsonSerializer.Deserialize<List<EspecialidadeClinicaJsonModel>>(form["especialidadesClinicas"]);
+                        
+                        if (crm != "" && especialidadesClinicas != null)
                         {
                             // Carrega objeto
                             EspecialistaModel especialista = new EspecialistaModel()
@@ -144,11 +166,10 @@ namespace TelemedUnividas.Controllers
                             especialista.Salvar();
 
                             // Percorre todas as uniões de clinicas e especialidades
-                            foreach (string especialidadeClinica in especialidadesClinicasVet)
+                            foreach (EspecialidadeClinicaJsonModel especialidadeClinica in especialidadesClinicas)
                             {
-                                string[] separa = especialidadeClinica.Split(":");
-                                ClinicaModel clinica = (new ClinicaModel()).Obter(int.Parse(separa[0]));
-                                EspecialidadeModel especialidade = (new EspecialidadeModel()).Obter(int.Parse(separa[1]));
+                                ClinicaModel clinica = (new ClinicaModel()).Obter(especialidadeClinica.clinica);
+                                EspecialidadeModel especialidade = (new EspecialidadeModel()).Obter(especialidadeClinica.especialidade);
 
                                 // Caso um dos modelos estiver vazio retorna um erro
                                 if (clinica == null)
@@ -205,8 +226,11 @@ namespace TelemedUnividas.Controllers
             catch (Exception ex)
             {
                 ViewData["erro"] = "Falha ao salvar os dados";
+                return View("Cadastrar");
             }
-            return View();
+
+            ViewData["sucesso"] = "Sucesso ao cadastrar usuário";
+            return View("../Administrador/Index");
         }
 
         /// <summary>

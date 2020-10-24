@@ -32,9 +32,7 @@ namespace TelemedUnividas.Models
             }
             else
             {
-                Entity ent = this.repositorio.Inserir(entidade);
-                BaseModel<Entity, Model> model = BaseModel<Entity, Model>.ReverterModel(ent) as BaseModel<Entity, Model>;
-                this.Codigo = model.Codigo;
+                this.Codigo = this.repositorio.Inserir(entidade);
             }
         }
 
@@ -99,7 +97,7 @@ namespace TelemedUnividas.Models
         /// </summary>
         public static List<Entity> ConverterModelList(List<Model> modelos)
         {
-            List<Entity> entidades = null;
+            List<Entity> entidades = new List<Entity>();
             if (modelos != null)
             {
                 entidades = new List<Entity>();
@@ -117,7 +115,7 @@ namespace TelemedUnividas.Models
         /// </summary>
         public static List<Model> ReverterModelList(List<Entity> entidades)
         {
-            List<Model> modelos = null;
+            List<Model> modelos = new List<Model>();
             if (entidades != null)
             {
                 modelos = new List<Model>();

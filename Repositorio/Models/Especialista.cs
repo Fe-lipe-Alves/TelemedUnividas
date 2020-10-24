@@ -8,6 +8,7 @@ namespace Repositorio.Models
         public Especialista()
         {
             Consulta = new HashSet<Consulta>();
+            EspecialidadeEspecialistaClinica = new HashSet<EspecialidadeEspecialistaClinica>();
             Prontuario = new HashSet<Prontuario>();
         }
 
@@ -24,6 +25,7 @@ namespace Repositorio.Models
 
         public virtual Endereco EnderecoCodigoNavigation { get; set; }
         public virtual ICollection<Consulta> Consulta { get; set; }
+        public virtual ICollection<EspecialidadeEspecialistaClinica> EspecialidadeEspecialistaClinica { get; set; }
         public virtual ICollection<Prontuario> Prontuario { get; set; }
     }
 }

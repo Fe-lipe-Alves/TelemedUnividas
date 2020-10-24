@@ -5,7 +5,7 @@ class EspecialidadeClinica {
     }
 }
 
-class EspecialistaClinica(){
+class EspecialistaClinica {
     constructor(especialista, clinica) {
         this.especialista = especialista;
         this.clinica = clinica;
@@ -73,8 +73,6 @@ $(document).ready(function () {
                         if (espCliVetor.length > 0) {
                             let existe = false; 
                             for (var i = 0; i < espCliVetor.length; i++) {
-                                console.log((especialidade !== espCliVetor[i].especialidade) && (clinica !== espCliVetor[i].clinica));
-                                console.log(especialidade+' = '+espCliVetor[i].especialidade+' | '+clinica+' = '+espCliVetor[i].clinica);
                                 if ((especialidade === espCliVetor[i].especialidade) && (clinica === espCliVetor[i].clinica)) {
                                     existe = true;
                                 }

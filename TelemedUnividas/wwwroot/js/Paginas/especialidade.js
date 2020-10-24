@@ -32,7 +32,9 @@ $(document).ready(function () {
         let elemento = $(this);
         let id = elemento.parents('.editItem').data('item');
         let itemLista = $('tr.itemLista[data-item="' + id + '"]');
-        let valor = $('#inputDescricao').val();
+        let valor = elemento.find('.inputDescricao').val();
+        console.log(elemento.find('.inputDescricao').val());
+        console.log(elemento.find('.inputDescricao'));
 
         elemento.parents('.editItem').find('.load').show();
         elemento.parents('.editItem').find('.noLoad').removeClass('d-flex').hide();
@@ -82,7 +84,7 @@ $(document).ready(function () {
         let elemento = $(this);
         let id = elemento.parents('.deleteItem').data('item');
         let itemLista = $('tr.itemLista[data-item="' + id + '"]');
-        let valor = $('#inputDescricao').val();
+        let valor = $('.inputDescricao').val();
 
         elemento.parents('.deleteItem').find('.load').show();
         elemento.parents('.deleteItem').find('.noLoad').removeClass('d-flex').hide();

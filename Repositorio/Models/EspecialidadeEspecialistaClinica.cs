@@ -8,6 +8,7 @@ namespace Repositorio.Models
         public int EspecialistaCodigo { get; set; }
         public int EspecialidadeCodigo { get; set; }
         public int ClinicaCodigo { get; set; }
+        public int Codigo { get; set; }
 
         public virtual Clinica ClinicaCodigoNavigation { get; set; }
         public virtual Especialidade EspecialidadeCodigoNavigation { get; set; }

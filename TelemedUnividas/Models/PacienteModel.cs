@@ -1,6 +1,7 @@
 ﻿using Repositorio.Models;
 using Repositorio.Repositorio;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TelemedUnividas.Models
@@ -75,6 +76,19 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Métodos
+
+        /// <summary>
+        /// Retorna uma lista de <see cref="PacienteModel"/> que contenham o valor de <paramref name="pesquisa"/> no nome, email ou CRM
+        /// </summary>
+        /// <param name="pesquisa"></param>
+        /// <returns></returns>
+        public List<PacienteModel> Localizar(string pesquisa = "")
+        {
+            List<Paciente> especialistaEntity = this.repositorio.Localizar(pesquisa);
+            List<PacienteModel> especialistas = PacienteModel.ReverterModelList(especialistaEntity);
+            return especialistas;
+        }
+
         /// <summary>
         /// Retorna o <see cref="PacienteModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
         /// </summary>

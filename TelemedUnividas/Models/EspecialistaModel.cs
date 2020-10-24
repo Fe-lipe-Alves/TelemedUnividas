@@ -13,7 +13,7 @@ namespace TelemedUnividas.Models
     {        
         #region Propriedades
         [Display(Name = "Código")]
-        public int Codigo { get; set; }
+        public override int Codigo { get; set; }
 
         [Display(Name = "Endereço")]
         public int? EnderecoCodigo { get; set; }
@@ -86,6 +86,18 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Métodos
+        /// <summary>
+        /// Retorna uma lista de <see cref="EspecialistaModel"/> que contenham o valor de <paramref name="pesquisa"/> no nome, email ou CRM
+        /// </summary>
+        /// <param name="pesquisa"></param>
+        /// <returns></returns>
+        public List<EspecialistaModel> Localizar(string pesquisa = "")
+        {
+            List<Especialista> especialistaEntity = this.repositorio.Localizar(pesquisa);
+            List<EspecialistaModel> especialistas = EspecialistaModel.ReverterModelList(especialistaEntity);
+            return especialistas;
+        }
+
         /// <summary>
         /// Obtem uma lista de objetos <see cref="EspecialidadeModel"/> resultantes de uma pesquisa pelo código da <see cref="Especialidade"/> no banco de dados
         /// </summary>

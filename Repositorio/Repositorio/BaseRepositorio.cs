@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Repositorio.Repositorio
 {
-    public abstract class BaseRepositorio<Entity>
+    public abstract class BaseRepositorio<Entity> where Entity : class
     {
         #region Métodos
         /// <summary>
         /// Insere um objeto <typeparamref name="Entity"/> no banco de dados
         /// </summary>
         /// <param name="entidade"></param>
-        public virtual Entity Inserir(Entity entidade)
+        public virtual int Inserir(Entity entidade)
         {
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
@@ -24,7 +24,11 @@ namespace Repositorio.Repositorio
                 db.SaveChanges();
             }
 
-            return entidade;
+            // Obtem o valor do id inserido
+            var props = entidade.GetType().GetProperties();
+            int codigo = (int)props.First().GetValue(entidade, null);
+
+            return codigo;
         }
 
         /// <summary>
@@ -41,6 +45,23 @@ namespace Repositorio.Repositorio
                 model = (Entity)db.Find(entidade, codigo);
             }
             return model;
+        }
+
+        /// <summary>
+        /// Obtem o objeto <typeparamref name="Entity"/> que possui a chave primária correspondente ao parametro <paramref name="pesquisa"/>
+        /// </summary>
+        /// <param name="codigo"></param>
+        /// <returns><typeparamref name="Entity"/></returns>
+        public virtual List<Entity> Localizar(string pesquisa = "")
+        {
+            List<Entity> models = new List<Entity>();
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                Type entidade = typeof(Entity);
+                //models = (Entity)db.Find(entidade, pesquisa);
+                models = db.Query<Entity>().ToList();
+            }
+            return models;
         }
 
         /// <summary>

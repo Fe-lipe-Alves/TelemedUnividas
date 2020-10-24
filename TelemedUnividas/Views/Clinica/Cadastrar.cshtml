@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Cadastrar Usuário";
+}
+
+<section class="ftco-section contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+            <div class="col-md-12 mb-4">
+                <h2 class="h4">Cadastrar Clínica</h2>
+            </div>
+        </div>
+        <div class="row block-9">
+            <div class="col-md-12 pr-md-5">
+                <form asp-controller="Usuario" asp-action="Salvar" id="cadastrarUsuario">
+                    <div class="row">
+                        @* Dados Obrigatórios *@
+                        <div class="col-12 col-md-6">
+                            <h6>Dados Clínica</h6>
+                            <div class="form-group">
+                                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" name="telefone" id="telefone" class="form-control" placeholder="Telefone *" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="E-mail *" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h6>Endereço</h6>
+                            <div class="form-group">
+                                <input type="text" name="rua" id="rua" class="form-control" placeholder="Logradouro *" required>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="numero" id="numero" class="form-control" placeholder="Número *" required>
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <input type="text" name="bairro" id="bairro" class="form-control" placeholder="Bairro *" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-12">
+                                    <input type="text" name="complemento" id="complemento" class="form-control" placeholder="Complemento">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <select type="text" name="estado" id="estado" class="form-control" placeholder="Estado *" required>
+                                        <option value="" disabled selected hidden>Estado *</option>
+                                        @foreach (UnidadeFederativaModel uf in ((List<UnidadeFederativaModel>)ViewData["estados"]))
+                                        {
+                                            <option value="@uf.Codigo">@uf.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <select type="text" name="cidade" id="cidade" class="form-control" placeholder="Cidade *" required>
+                                        <option value="" disabled selected hidden>Cidade *</option>
+                                        @foreach (CidadeModel cidade in ((List<CidadeModel>)ViewData["cidades"]))
+                                        {
+                                            <option value="@cidade.Codigo">@cidade.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group text-center py-5">
+                                <input type="submit" value="Cadastrar" class="btn btn-primary py-3 px-5">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section-parallax">
+    <div class="parallax-img d-flex align-items-center">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+                    <h2>Subcribe to our Newsletter</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in</p>
+                    <div class="row d-flex justify-content-center mt-5">
+                        <div class="col-md-8">
+                            <form action="#" class="subscribe-form">
+                                <div class="form-group d-flex">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                    <input type="submit" value="Subscribe" class="submit px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/Paginas/usuario_cadastrar.js"></script>
+}

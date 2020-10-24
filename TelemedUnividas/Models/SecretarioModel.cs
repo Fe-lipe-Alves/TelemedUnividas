@@ -81,6 +81,18 @@ namespace TelemedUnividas.Models
 
         #region Métodos
         /// <summary>
+        /// Retorna uma lista de <see cref="SecretarioModel"/> que contenham o valor de <paramref name="pesquisa"/> no nome, email ou CRM
+        /// </summary>
+        /// <param name="pesquisa"></param>
+        /// <returns></returns>
+        public List<SecretarioModel> Localizar(string pesquisa = "")
+        {
+            List<Secretario> especialistaEntity = this.repositorio.Localizar(pesquisa);
+            List<SecretarioModel> especialistas = SecretarioModel.ReverterModelList(especialistaEntity);
+            return especialistas;
+        }
+
+        /// <summary>
         /// Retorna o <see cref="SecretarioModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
         /// </summary>
         /// <param name="email"></param>
