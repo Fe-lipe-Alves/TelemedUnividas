@@ -45,6 +45,13 @@ namespace TelemedUnividas.Models
             List<CidadeModel> cidades = CidadeModel.ReverterModelList(cidadeEntities);
             return cidades;
         }
+
+        public List<CidadeModel> TodosUF(int uf_codigo)
+        {
+            List<Cidade> cidadesEntities = this.repositorio.TodosUF(uf_codigo);
+            List<CidadeModel> cidadeModels = CidadeModel.ReverterModelList(cidadesEntities);
+            return cidadeModels;
+        }
         #endregion
     }
 }

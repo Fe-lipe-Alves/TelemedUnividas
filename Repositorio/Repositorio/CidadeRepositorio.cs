@@ -8,15 +8,16 @@ namespace Repositorio.Repositorio
 {
     public class CidadeRepositorio : BaseRepositorio<Cidade>
     {
-        public List<Cidade> Localizar(string pesquisa = "")
+        public List<Cidade> TodosUF(int uf_codigo)
         {
-            List<Cidade> cidades = null;
+            List<Cidade> cidades = new List<Cidade>();
+
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                cidades = db.Cidade.Where(c => c.Nome.Contains(pesquisa)).ToList();
+                cidades = (from c in db.Cidade where c.UnidadeFederativaCodigo == uf_codigo select c).ToList();
             }
 
             return cidades;
-        } 
+        }
     }
 }

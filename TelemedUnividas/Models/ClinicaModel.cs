@@ -14,6 +14,7 @@ namespace TelemedUnividas.Models
         public int? Endereco { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
+        public string Telefone { get; set; }
         #endregion
 
         #region Propriedades Auxiliares
@@ -27,12 +28,13 @@ namespace TelemedUnividas.Models
             base.repositorio = this.repositorio;
         }
 
-        public ClinicaModel(int codigo, int? endereco, string nome, string email)
+        public ClinicaModel(int codigo, int? endereco, string nome, string email, string telefone)
         {
             Codigo = codigo;
             Endereco = endereco;
             Nome = nome;
             Email = email;
+            Telefone = telefone;
             this.repositorio = new ClinicaRepositorio();
             base.repositorio = this.repositorio;
         }

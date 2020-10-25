@@ -18,6 +18,7 @@ namespace Repositorio.Models
         public virtual DbSet<Administrador> Administrador { get; set; }
         public virtual DbSet<Arquivo> Arquivo { get; set; }
         public virtual DbSet<Chamada> Chamada { get; set; }
+        public virtual DbSet<Cid10> Cid10 { get; set; }
         public virtual DbSet<Cidade> Cidade { get; set; }
         public virtual DbSet<Clinica> Clinica { get; set; }
         public virtual DbSet<Consulta> Consulta { get; set; }
@@ -138,6 +139,27 @@ namespace Repositorio.Models
                     .HasConstraintName("FK_Chamada_Consulta");
             });
 
+            modelBuilder.Entity<Cid10>(entity =>
+            {
+                entity.HasKey(e => e.Codigo)
+                    .HasName("CID10_pk")
+                    .IsClustered(false);
+
+                entity.ToTable("CID10");
+
+                entity.Property(e => e.Codigo).HasColumnName("codigo");
+
+                entity.Property(e => e.Descricao)
+                    .HasColumnName("descricao")
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Referencia)
+                    .HasColumnName("referencia")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Cidade>(entity =>
             {
                 entity.HasKey(e => e.Codigo)
@@ -175,6 +197,11 @@ namespace Repositorio.Models
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefone)
+                    .HasColumnName("telefone")
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.EnderecoNavigation)
@@ -655,6 +682,11 @@ namespace Repositorio.Models
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Uf)
+                    .HasColumnName("uf")
+                    .HasMaxLength(2)
                     .IsUnicode(false);
             });
 

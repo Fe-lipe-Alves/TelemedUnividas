@@ -59,7 +59,8 @@ namespace Repositorio.Repositorio
             {
                 Type entidade = typeof(Entity);
                 //models = (Entity)db.Find(entidade, pesquisa);
-                models = db.Query<Entity>().ToList();
+                models = db.Set<Entity>().ToList();
+
             }
             return models;
         }

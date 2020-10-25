@@ -16,7 +16,7 @@ namespace Repositorio.Repositorio
         /// Obtem uma lista de <see cref="Especialista"/> em que na propriedade <see cref="Especialista.Nome"/>, <see cref="Especialista.Sobrenome"/> ou <see cref="Especialista.Crm"/> contenham o conteudo de <paramref name="pesquisa"/>
         /// </summary>
         /// <param name="pesquisa"></param>
-        public List<Especialista> Localizar(string pesquisa)
+        public override List<Especialista> Localizar(string pesquisa)
         {
             List<Especialista> especialistas = null;
             using (TelemedUnividasContext db = new TelemedUnividasContext())

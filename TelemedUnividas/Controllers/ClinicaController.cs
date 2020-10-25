@@ -59,6 +59,15 @@ namespace TelemedUnividas.Controllers
                         CidadeCodigo = cidade.Codigo
                     };
                     endereco.Salvar();
+
+                    ClinicaModel clinica = new ClinicaModel()
+                    {
+                        Nome = nome,
+                        Email = email,
+                        Endereco = endereco.Codigo,
+                        Telefone = telefone
+                    };
+                    clinica.Salvar();
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -69,10 +78,45 @@ namespace TelemedUnividas.Controllers
             }
         }
 
+        // GET: ClinicaController/Editar/5
+        public ActionResult Editar(int codigo)
+        {
+            try
+            {
+                if(codigo != 0)
+                {
+                    ClinicaModel clinica = (new ClinicaModel()).Obter(codigo);
+                    if(clinica != null)
+                    {
+                        EnderecoModel endereco = (new EnderecoModel()).Obter((int)clinica.Endereco);
+                        CidadeModel cidade = (new CidadeModel()).Obter(endereco.CidadeCodigo);
+                        List<UnidadeFederativaModel> uf = (new UnidadeFederativaModel()).Todos();
+                        List<CidadeModel> cidades = (new CidadeModel()).TodosUF(cidade.UnidadeFederativaCodigo);
+
+                        ViewData["clinica"] = clinica;
+                        ViewData["endereco"] = endereco;
+                        ViewData["cidade"] = cidade;
+                        ViewData["uf"] = uf;
+                        ViewData["cidades"] = cidades;
+                    } else
+                    {
+                        // Clinica não encontrada
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View();
+        }
+
         // GET: ClinicaController
         public ActionResult Index()
         {
-            return View();
+            List<ClinicaModel> clinicas = (new ClinicaModel()).Localizar();
+            return View(clinicas);
         }
 
         // GET: ClinicaController/Details/5
@@ -102,11 +146,7 @@ namespace TelemedUnividas.Controllers
             }
         }
 
-        // GET: ClinicaController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+
 
         // POST: ClinicaController/Edit/5
         [HttpPost]
