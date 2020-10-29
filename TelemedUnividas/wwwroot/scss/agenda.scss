@@ -1,0 +1,146 @@
+
+#calendario {
+    background-color: #FAFAFA;
+
+    #cabecalho {
+        background-color: #FFFFFF;
+        line-height: 5vh;
+        text-align: center;
+        vertical-align: middle;
+
+        #mes {
+            display: flex;
+            padding: 5px 0px;
+            text-align: center;
+            width: 100%;
+
+            .btnAnterior, .btnProximo {
+                cursor: pointer;
+            }
+
+            .nome-mes {
+                font-size: 14pt;
+            }
+        }
+
+        #semana {
+            display: flex;
+            width: 100%;
+
+            .nome-dia {
+                border-bottom: 1px solid #EEEEEE;
+                border-right: 1px solid #DCDCDC;
+                flex-basis: calc(100% / 7);
+                height: 5vh;
+                width: calc(100% / 7);
+
+                &:nth-child(7n) {
+                    border-right: 0px;
+                }
+            }
+        }
+    }
+
+    #corpo {
+        display: flex;
+
+        .dia-semana {
+            border-bottom: 1px solid #F5F5F5;
+            border-right: 1px solid #DCDCDC;
+            cursor: pointer;
+            flex-basis: calc(100% / 7);
+            height: 15vh;
+            position: relative;
+            width: calc(100% / 7);
+
+            &::after {
+                color: #999;
+                content: attr(data-dia);
+                display: block;
+                position: absolute;
+                right: 2px;
+                top: 0;
+            }
+
+            &:nth-child(7n+1) {
+                background-color: #EFEFEF;
+            }
+
+            &:nth-child(7n) {
+                border-right: 0px;
+                background-color: #EFEFEF;
+            }
+
+            &:hover {
+                background-color: #F7F7F7;
+            }
+
+            &.ativo {
+                background-color: #B8AFF7;
+            }
+        }
+    }
+
+   
+}
+#detalhes {
+    #cabecalho {
+        #dia {
+            padding: 5px 0px;
+
+            .nome-dia {
+                font-size: 14pt;
+            }
+        }
+
+        #status {
+            text-align: center;
+            height: 5vh;
+        }
+    }
+
+    #horario {
+        display: flex;
+        overflow: hidden;
+
+        .hora {
+            border-bottom: 1px solid #F5F5F5;
+            cursor: pointer;
+            flex-basis: 100%;
+            height: 15vh;
+            position: relative;
+            width: 100%;
+
+            &::after {
+                color: #999;
+                content: attr(data-horario);
+                display: block;
+                position: absolute;
+                right: 2px;
+                top: 0;
+            }
+
+            &:last-child {
+                border-bottom: 0px;
+            }
+
+            &.ativo {
+                background-color: #B8AFF7;
+            }
+
+            .meia-hora {
+                border-bottom: 1px solid #F5F5F5;
+
+                &:last-child {
+                    border-bottom: 0px;
+                }
+
+                &:hover {
+                    background-color: #F7F7F7;
+                    height: 50%;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
