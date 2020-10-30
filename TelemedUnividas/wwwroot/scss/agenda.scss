@@ -53,6 +53,17 @@
             position: relative;
             width: calc(100% / 7);
 
+            &::before {
+                background-color: #C2DBF5;
+                content: ' ';
+                display: block;
+                height: attr(data-ocupacao px);
+                position: absolute;
+                right: 0px;
+                top: 0;
+                width: 100%;
+            }
+
             &::after {
                 color: #999;
                 content: attr(data-dia);
@@ -72,7 +83,8 @@
             }
 
             &:hover {
-                background-color: #F7F7F7;
+                background-color: #D0D8FF;
+                color: #333333;
             }
 
             &.ativo {
@@ -80,9 +92,8 @@
             }
         }
     }
-
-   
 }
+
 #detalhes {
     #cabecalho {
         #dia {
@@ -100,8 +111,10 @@
     }
 
     #horario {
+        background-color: #FAFAFA;
         display: flex;
-        overflow: hidden;
+        height: calc(15vh * 5);
+        overflow: auto;
 
         .hora {
             border-bottom: 1px solid #F5F5F5;
@@ -123,6 +136,9 @@
             &:last-child {
                 border-bottom: 0px;
             }
+            &:hover{
+                color: #333333;
+            }
 
             &.ativo {
                 background-color: #B8AFF7;
@@ -130,13 +146,14 @@
 
             .meia-hora {
                 border-bottom: 1px solid #F5F5F5;
+                height: 50%;
 
                 &:last-child {
                     border-bottom: 0px;
                 }
 
                 &:hover {
-                    background-color: #F7F7F7;
+                    background-color: #D0D8FF;
                     height: 50%;
                     width: 100%;
                 }

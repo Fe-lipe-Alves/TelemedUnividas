@@ -45,6 +45,16 @@
   position: relative;
   width: calc(100% / 7);
 }
+#calendario #corpo .dia-semana::before {
+  background-color: #C2DBF5;
+  content: " ";
+  display: block;
+  height: attr(data-ocupacao px);
+  position: absolute;
+  right: 0px;
+  top: 0;
+  width: 100%;
+}
 #calendario #corpo .dia-semana::after {
   color: #999;
   content: attr(data-dia);
@@ -61,7 +71,8 @@
   background-color: #EFEFEF;
 }
 #calendario #corpo .dia-semana:hover {
-  background-color: #F7F7F7;
+  background-color: #D0D8FF;
+  color: #333333;
 }
 #calendario #corpo .dia-semana.ativo {
   background-color: #B8AFF7;
@@ -78,8 +89,10 @@
   height: 5vh;
 }
 #detalhes #horario {
+  background-color: #FAFAFA;
   display: flex;
-  overflow: hidden;
+  height: calc(15vh * 5);
+  overflow: auto;
 }
 #detalhes #horario .hora {
   border-bottom: 1px solid #F5F5F5;
@@ -100,17 +113,21 @@
 #detalhes #horario .hora:last-child {
   border-bottom: 0px;
 }
+#detalhes #horario .hora:hover {
+  color: #333333;
+}
 #detalhes #horario .hora.ativo {
   background-color: #B8AFF7;
 }
 #detalhes #horario .hora .meia-hora {
   border-bottom: 1px solid #F5F5F5;
+  height: 50%;
 }
 #detalhes #horario .hora .meia-hora:last-child {
   border-bottom: 0px;
 }
 #detalhes #horario .hora .meia-hora:hover {
-  background-color: #F7F7F7;
+  background-color: #D0D8FF;
   height: 50%;
   width: 100%;
 }
