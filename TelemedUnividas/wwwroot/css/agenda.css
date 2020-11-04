@@ -117,7 +117,14 @@
   color: #333333;
 }
 #detalhes #horario .hora.ativo {
-  background-color: #B8AFF7;
+  height: 70%;
+  background-color: #ebdbf3;
+}
+#detalhes #horario .hora.ativo:after {
+  content: none;
+}
+#detalhes #horario .hora.ativo .meia-hora:not(.ativo) {
+  height: 0%;
 }
 #detalhes #horario .hora .meia-hora {
   border-bottom: 1px solid #F5F5F5;
@@ -130,6 +137,10 @@
   background-color: #D0D8FF;
   height: 50%;
   width: 100%;
+}
+#detalhes #horario .hora .meia-hora.ativo {
+  height: 100%;
+  background-color: #ebdbf3;
 }
 
 /*# sourceMappingURL=agenda.css.map */

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TelemedUnividas.Models;
 
 namespace TelemedUnividas.Controllers
 {
@@ -12,7 +13,58 @@ namespace TelemedUnividas.Controllers
         // GET: AgendaController
         public ActionResult Index()
         {
+            ViewData["clinica_codigo"] = 1;
+            ViewData["especialista_codigo"] = 1;
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Agendar(IFormCollection form)
+        {
+            try
+            {
+                string cpf = form["cpf"];
+                DateTime data = DateTime.Parse(form["dataHorario"]);
+                int clinica_codigo = int.Parse(form["clinica_codigo"]);
+                int especialista_codigo = int.Parse(form["especialista_codigo"]);
+                PacienteModel paciente = (new PacienteModel()).LocalizarCPF(cpf);
+
+                if(cpf != "" && 
+                   data != null && 
+                   clinica_codigo != 0 &&
+                   especialista_codigo != 0 &&
+                   paciente != null)
+                {
+                    ConsultaModel consulta = new ConsultaModel()
+                    {
+                        ClinicaCodigo = clinica_codigo,
+                        Data = data,
+                        EspecialistaCodigo = especialista_codigo,
+                        Paciente = paciente.Codigo
+                    };
+                    return new JsonResult(new
+                    {
+                        success = true,
+                        message = "Agendado com sucesso"
+                    });
+                } else
+                {
+                    return new JsonResult(new
+                    {
+                        success = false,
+                        message = "Flaha ao agendar"
+                    });
+                }
+            }
+            catch
+            {
+                return new JsonResult(new
+                {
+                    success = false,
+                    message = "Flaha ao agendar"
+                });
+            }
         }
 
         // GET: AgendaController/Details/5

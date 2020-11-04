@@ -89,6 +89,12 @@ namespace TelemedUnividas.Models
             return especialistas;
         }
 
+        public PacienteModel LocalizarCPF(string cpf)
+        {
+            Paciente paciente = this.repositorio.LocalizarCPF(cpf);
+            return PacienteModel.ReverterModel(paciente);
+        }
+
         /// <summary>
         /// Retorna o <see cref="PacienteModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos
         /// </summary>
@@ -104,7 +110,7 @@ namespace TelemedUnividas.Models
         public String NomeCompleto()
         {
             return this.Nome + " " + this.Sobrenome;
-        }
+        }        
         #endregion
     }
 }

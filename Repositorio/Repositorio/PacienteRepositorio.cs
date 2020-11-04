@@ -51,6 +51,17 @@ namespace Repositorio.Repositorio
 
             return paciente;
         }
+
+        public Paciente LocalizarCPF(string cpf)
+        {
+            Paciente paciente = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                paciente = (from p in db.Paciente where p.Cpf == cpf select p).FirstOrDefault();
+            }
+
+            return paciente;
+        }
         #endregion
     }
 }

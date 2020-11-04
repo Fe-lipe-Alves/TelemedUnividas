@@ -136,12 +136,22 @@
             &:last-child {
                 border-bottom: 0px;
             }
-            &:hover{
+
+            &:hover {
                 color: #333333;
             }
 
             &.ativo {
-                background-color: #B8AFF7;
+                height: 70%;
+                background-color: #ebdbf3;
+
+                &:after{
+                    content: none;
+                }
+
+                .meia-hora:not(.ativo) {
+                    height: 0%;
+                }
             }
 
             .meia-hora {
@@ -156,6 +166,11 @@
                     background-color: #D0D8FF;
                     height: 50%;
                     width: 100%;
+                }
+
+                &.ativo {
+                    height: 100%;
+                    background-color: #ebdbf3;
                 }
             }
         }
