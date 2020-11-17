@@ -196,7 +196,21 @@ namespace TelemedUnividas.Controllers
                         {
                             // clinica não informada
                         }
-                    } else
+                    } else if (tipoUsuario == "administrador")
+                    {
+                        AdministradorModel administrador = new AdministradorModel()
+                        {
+                            Nome = nome,
+                            Sobrenome = sobrenome,
+                            Email = email,
+                            Senha = Hash.GetHashString(senha),
+                        };
+
+                        // ToDo // Verificar como esta o banco com a integração do secretario, especialista e clinica
+
+                        administrador.Salvar();
+                    }
+                    else
                     {
                         // tipo de usuário não encontrado
                     }
@@ -224,6 +238,8 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         public IActionResult Login()
         {
+
+
             return View();
         }
 
@@ -237,32 +253,46 @@ namespace TelemedUnividas.Controllers
             PacienteModel paciente = null;
             EspecialistaModel especialista = null;
             SecretarioModel secretario = null;
+            AdministradorModel administrador = null;
 
             try
             {
                 string email = form["email"];
+                //string senha = Hash.GetHashString(form["senha"]);
                 string senha = form["senha"];
-                             
+
                 if (email != "" && senha != "")
                 {
                     paciente = (new PacienteModel()).Login(email, senha);
                     if (paciente != null)
                     {
-                        
-
-                        return View();
+                        HttpContext.Session.SetInt32("codigo_usuario", paciente.Codigo);
+                        HttpContext.Session.SetString("tipo_usuario", "paciente");
+                        return View("Paciente");
                     }
 
                     especialista = (new EspecialistaModel()).Login(email, senha);
                     if (especialista != null)
                     {
-                        return View();
+                        HttpContext.Session.SetInt32("codigo_usuario", especialista.Codigo);
+                        HttpContext.Session.SetString("tipo_usuario", "especialista");
+                        return View("Especialista");
                     }
 
                     secretario = (new SecretarioModel()).Login(email, senha);
                     if (secretario != null)
                     {
-                        return View();
+                        HttpContext.Session.SetInt32("codigo_usuario", secretario.Codigo);
+                        HttpContext.Session.SetString("tipo_usuario", "secretario");
+                        return View("Secretario");
+                    }
+
+                    administrador = (new AdministradorModel()).Login(email, senha);
+                    if (administrador != null)
+                    {
+                        HttpContext.Session.SetInt32("codigo_usuario", administrador.Codigo);
+                        HttpContext.Session.SetString("tipo_usuario", "administrador");
+                        return View("../Administrador/Index");
                     }
                 } else
                 {

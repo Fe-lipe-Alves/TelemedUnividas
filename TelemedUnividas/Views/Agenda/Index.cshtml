@@ -10,12 +10,13 @@
     <div class="container">
         <div class="row d-flex mb-5 contact-info">
             <div class="col-12 mb-4">
-                <h2 class="h4">Agenda - Felipe Alves</h2>
+                <h2 class="h4">Agenda - Felipe
+                Alves</h2>
                 <form asp-controller="Agenda" asp-action="Agendar" id="formRealAgendar" >
                     <input type="hidden" name="especialista_codigo" id="especialista_codigo" value="@ViewData["especialista_codigo"]" />
                     <input type="hidden" name="clinica_codigo" id="clinica_codigo" value="@ViewData["clinica_codigo"]" />
-                    <input type="hidden" name="data" id="data" value="@ViewData["data"]" />
-                    <input type="hidden" name="cpf" id="cpf" value="@ViewData["cpf"]" />
+                    <input type="hidden" name="data" id="data"/>
+                    <input type="hidden" name="cpf" id="cpf"/>
                 </form>
             </div>
         </div>

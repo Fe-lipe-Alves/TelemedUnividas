@@ -44,8 +44,7 @@ namespace Repositorio.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                //optionsBuilder.UseSqlServer("Server=192.168.0.106,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
-                optionsBuilder.UseSqlServer("Server=192.168.15.24,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
+                optionsBuilder.UseSqlServer("Server=192.168.0.106,1401 ; Database= TelemedUnividas; User ID=sa;Password=<YourNewStrong!Passw0rd>;");
             }
         }
 
@@ -59,7 +58,8 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
-                    .HasMaxLength(50);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Nome)
                     .HasColumnName("nome")
@@ -68,11 +68,13 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Senha)
                     .HasColumnName("senha")
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Sobrenome)
                     .HasColumnName("sobrenome")
-                    .HasMaxLength(150);
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Arquivo>(entity =>

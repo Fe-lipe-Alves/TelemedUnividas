@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <title>@ViewData["Title"]</title>
@@ -43,8 +47,16 @@
                     <li class="nav-item"><a asp-controller="Especialidade" asp-action="Index" class="nav-link">Especialidades</a></li>
                     <li class="nav-item"><a href="doctor.html" class="nav-link">Clínicas</a></li>
                     <li class="nav-item"><a href="contact.html" class="nav-link">Ajuda</a></li>
-                    <li class="nav-item"><a asp-controller="Usuario" asp-action="Login" class="nav-link">Acessar conta</a></li>
-                    <li class="nav-item cta"><a href="contact.html" class="nav-link" data-toggle="modal" data-target="#modalAppointment"><span>Agendar Consulta</span></a></li>
+                    @*@if (HttpContextAccessor.HttpContext.Session.GetInt32("codigo_usuario") != null)
+                    {
+                        <li class="nav-item"><a asp-controller="Usuario" asp-action="Login" class="nav-link">Minha Conta</a></li>
+                        <li class="nav-item cta"><a href="contact.html" class="nav-link" data-toggle="modal" data-target="#modalAppointment"><span>Agendar Consulta</span></a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a asp-controller="Usuario" asp-action="Login" class="nav-link">Acessar conta</a></li>
+                        <li class="nav-item cta"><a href="contact.html" class="nav-link" data-toggle="modal" data-target="#modalAppointment"><span>Agendar Consulta</span></a></li>
+                    }*@
                 </ul>
             </div>
         </div>

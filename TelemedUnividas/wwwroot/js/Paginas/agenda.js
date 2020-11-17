@@ -36,11 +36,10 @@ $(document).ready(function () {
         $('#formRealAgendar').submit();
     });
 
-    $('#formRealAgendar').on('click', function (event) {
+    $('#formRealAgendar').on('submit', function (event) {
         event.preventDefault();
 
         $(this).find('#data').val(data + ' ' + horario);
-
         $('#cpf').val($('#cpfForm').val());
 
         $.ajax({
