@@ -10,11 +10,11 @@ namespace TelemedUnividas.Models
     public class ConsultaModel : BaseModel<Consulta, ConsultaModel>
     {
         #region Propriedades
-        public int Codigo { get; set; }
+        public override int Codigo { get; set; }
         public int EspecialistaCodigo { get; set; }
         public int Paciente { get; set; }
         public int ClinicaCodigo { get; set; }
-        public DateTime? Data { get; set; }
+        public String Data { get; set; }
         public int? Status { get; set; }
         public bool? Retorno { get; set; }
         #endregion
@@ -30,7 +30,7 @@ namespace TelemedUnividas.Models
             base.repositorio = this.repositorio;
         }
 
-        public ConsultaModel(int especialistaCodigo, int paciente, int clinicaCodigo, DateTime? data, int? status, bool? retorno, int codigo = 0)
+        public ConsultaModel(int especialistaCodigo, int paciente, int clinicaCodigo, String data, int? status, bool? retorno, int codigo = 0)
         {
             Codigo = codigo;
             EspecialistaCodigo = especialistaCodigo;
@@ -45,7 +45,11 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Métodos
-
+        public List<ConsultaModel> ObterAgenda(int especialista_codigo)
+        {
+            List<Consulta> consultas = this.repositorio.ObterAgenda(especialista_codigo);
+            return ConsultaModel.ReverterModelList(consultas);
+        }
         #endregion
     }
 }

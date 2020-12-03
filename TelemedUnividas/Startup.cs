@@ -28,8 +28,11 @@ namespace TelemedUnividas
             services.AddControllersWithViews();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSession();
 
+
+            //services.AddCaching();
+            services.AddSession();
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +62,8 @@ namespace TelemedUnividas
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseSession();  // Before UseMvc()
+            app.UseSession();
+            app.UseMvc();
         }
     }
 }

@@ -266,7 +266,7 @@ namespace TelemedUnividas.Controllers
                     paciente = (new PacienteModel()).Login(email, senha);
                     if (paciente != null)
                     {
-                        HttpContext.Session.SetInt32("codigo_usuario", paciente.Codigo);
+                        HttpContext.Session.SetString("codigo_usuario", paciente.Codigo.ToString());
                         HttpContext.Session.SetString("tipo_usuario", "paciente");
                         return View("Paciente");
                     }

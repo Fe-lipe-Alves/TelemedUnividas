@@ -34,6 +34,9 @@ namespace TelemedUnividas
 
                 cfg.CreateMap<Clinica, ClinicaModel>();
                 cfg.CreateMap<ClinicaModel, Clinica>();
+
+                cfg.CreateMap<Consulta, ConsultaModel>();
+                cfg.CreateMap<ConsultaModel, Consulta>();
             });
             return config;
         }
