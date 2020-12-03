@@ -25,14 +25,18 @@ namespace TelemedUnividas
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-
-            //services.AddCaching();
-            services.AddSession();
-            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,15 +59,14 @@ namespace TelemedUnividas
 
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            app.UseSession();
-            app.UseMvc();
         }
     }
 }

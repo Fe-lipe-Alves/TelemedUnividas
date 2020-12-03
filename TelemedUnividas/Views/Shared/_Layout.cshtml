@@ -1,4 +1,35 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    string tipo_usuario = HttpContextAccessor.HttpContext.Session.GetString("tipo_usuario");
+    int codigo_usuario = HttpContextAccessor.HttpContext.Session.GetInt32("codigo_usuario") ?? 0;
+
+    string nome_usuario = "";
+
+    if (tipo_usuario == "Paciente")
+    {
+        PacienteModel paciente = (new PacienteModel()).Obter(codigo_usuario);
+        nome_usuario = paciente.NomeCompleto();
+    }
+    else if (tipo_usuario == "Especialista")
+    {
+        EspecialistaModel especialista = (new EspecialistaModel()).Obter(codigo_usuario);
+        nome_usuario = especialista.NomeCompleto();
+    }
+    else if (tipo_usuario == "Secretario")
+    {
+        SecretarioModel secretario = (new SecretarioModel()).Obter(codigo_usuario);
+        nome_usuario = secretario.NomeCompleto();
+    }
+    else if (tipo_usuario == "Administrador")
+    {
+        AdministradorModel administrador = (new AdministradorModel()).Obter(codigo_usuario);
+        nome_usuario = administrador.NomeCompleto();
+    }
+}
+
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <title>@ViewData["Title"]</title>
@@ -8,7 +39,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
 
     @*<link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-    <link rel="stylesheet" href="css/animate.css">*@
+        <link rel="stylesheet" href="css/animate.css">*@
 
     <link rel="stylesheet" href="~/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
@@ -20,7 +51,7 @@
 
     <link rel="stylesheet" href="~/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="~/css/jquery.timepicker.css">
-    <link rel="icon" href="~/favicon.svg"/>
+    <link rel="icon" href="~/favicon.svg" />
 
 
     <link rel="stylesheet" href="~/css/flaticon.css">
@@ -32,25 +63,70 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="flaticon-pharmacy"></i><span>Telemed</span>Unividas</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index"><i class="flaticon-pharmacy"></i><span>Telemed</span>Unividas</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item active"><a asp-controller="Home" asp-action="Index" class="nav-link">Home</a></li>
                     <li class="nav-item"><a asp-controller="Especialidade" asp-action="Index" class="nav-link">Especialidades</a></li>
                     <li class="nav-item"><a href="doctor.html" class="nav-link">Clínicas</a></li>
                     <li class="nav-item"><a href="contact.html" class="nav-link">Ajuda</a></li>
-                    <li class="nav-item"><a asp-controller="Usuario" asp-action="Login" class="nav-link">Acessar conta</a></li>
-                    <li class="nav-item cta"><a href="contact.html" class="nav-link" data-toggle="modal" data-target="#modalAppointment"><span>Agendar Consulta</span></a></li>
+                    @if (nome_usuario != "")
+                    {
+                        @if (tipo_usuario == "Paciente")
+                        {
+                            <li class="nav-item"><a class="nav-link">Minhas Consultas</a></li>
+                        }
+
+                        @if (tipo_usuario == "Especialista")
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Agenda" asp-action="Index" asp-route-especialista="@codigo_usuario">Minha Agenda</a></li>
+                        }
+
+                        @if (tipo_usuario == "Secretário")
+                        {
+                            <li class="nav-item"><a class="nav-link">Secretária</a></li>
+                        }
+
+                        @if (tipo_usuario == "Administrador")
+                        {
+                            <li class="nav-item"><a class="nav-link">Painel</a></li>
+                        }
+
+                        <li class="nav-item">
+                            <div class="dropdown show py-1">
+                                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false" title="@tipo_usuario">
+                                    @nome_usuario
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <p class="text-center text-muted"><small>@tipo_usuario</small></p>
+                                    <a class="dropdown-item" href="#">Minha conta</a>
+                                    <a class="dropdown-item" href="#">Configurações</a>
+                                    <a class="dropdown-item" asp-controller="Usuario" asp-action="Sair">Sair</a>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+                        <a href="perfil.html" class="nav-link" data-toggle="modal" data-target="#modalAppointment" title="Paciente"><span></span></a>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a asp-controller="Usuario" asp-action="Login" class="nav-link">Acessar conta</a></li>
+                    }
+
                 </ul>
             </div>
         </div>
     </nav>
     <!-- END nav -->
-    
+
 
     @RenderBody();
 

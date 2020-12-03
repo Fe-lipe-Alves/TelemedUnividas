@@ -238,8 +238,6 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         public IActionResult Login()
         {
-
-
             return View();
         }
 
@@ -266,34 +264,33 @@ namespace TelemedUnividas.Controllers
                     paciente = (new PacienteModel()).Login(email, senha);
                     if (paciente != null)
                     {
-                        HttpContext.Session.SetString("codigo_usuario", paciente.Codigo.ToString());
-                        HttpContext.Session.SetString("tipo_usuario", "paciente");
-                        return View("Paciente");
+                        HttpContext.Session.SetInt32("codigo_usuario", paciente.Codigo);
+                        HttpContext.Session.SetString("tipo_usuario", "Paciente");
                     }
 
                     especialista = (new EspecialistaModel()).Login(email, senha);
                     if (especialista != null)
                     {
                         HttpContext.Session.SetInt32("codigo_usuario", especialista.Codigo);
-                        HttpContext.Session.SetString("tipo_usuario", "especialista");
-                        return View("Especialista");
+                        HttpContext.Session.SetString("tipo_usuario", "Especialista");
                     }
 
                     secretario = (new SecretarioModel()).Login(email, senha);
                     if (secretario != null)
                     {
                         HttpContext.Session.SetInt32("codigo_usuario", secretario.Codigo);
-                        HttpContext.Session.SetString("tipo_usuario", "secretario");
-                        return View("Secretario");
+                        HttpContext.Session.SetString("tipo_usuario", "Secretario");
                     }
 
                     administrador = (new AdministradorModel()).Login(email, senha);
                     if (administrador != null)
                     {
                         HttpContext.Session.SetInt32("codigo_usuario", administrador.Codigo);
-                        HttpContext.Session.SetString("tipo_usuario", "administrador");
+                        HttpContext.Session.SetString("tipo_usuario", "Administrador");
                         return View("../Administrador/Index");
                     }
+
+                    return View("../Home/Index");
                 } else
                 {
                     throw new Exception("E-mail ou senha invalidos");
@@ -304,16 +301,19 @@ namespace TelemedUnividas.Controllers
                 ViewData["erro"] = new { Mensagem = ex.Message };
             }
 
-            return View();
+            return View("Login");
         }
 
         /// <summary>
         /// Logout do usuário
         /// </summary>
         /// <returns></returns>
-        //public IActionResult Sair()
-        //{
+        public IActionResult Sair()
+        {
+            HttpContext.Session.Remove("codigo_usuario");
+            HttpContext.Session.Remove("tipo_usuario");
 
-        //}
+            return View("../Home/Index");
+        }
     }
 }

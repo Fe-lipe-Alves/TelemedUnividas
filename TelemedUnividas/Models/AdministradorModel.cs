@@ -48,6 +48,11 @@ namespace TelemedUnividas.Models
             Administrador administrador = this.repositorio.Login(email, senha);
             return AdministradorModel.ReverterModel(administrador);
         }
+
+        public String NomeCompleto()
+        {
+            return this.Nome + " " + this.Sobrenome;
+        }
         #endregion
     }
 }
