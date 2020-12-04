@@ -18,5 +18,17 @@ namespace Repositorio.Repositorio
 
             return clinicas;
         }
+
+        public List<Cidade> ObterCidadesPorEstado(int estado_codigo)
+        {
+            List<Cidade> cidades = null;
+
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                cidades = (from c in db.Cidade where c.UnidadeFederativaCodigo == estado_codigo select c).ToList();
+            }
+
+            return cidades;
+        }
     }
 }

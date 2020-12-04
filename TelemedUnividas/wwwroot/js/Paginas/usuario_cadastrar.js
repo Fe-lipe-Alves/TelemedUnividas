@@ -213,6 +213,28 @@ $(document).ready(function () {
     $('.is-invalid').on('change', function () {
         $(this).removeClass('is-invalid');
     });
+
+    $('select#estado').on('change', function () {
+        let estado_codigo = $(this).val();
+
+        $('select#cidade option').each(function () {
+            $(this).remove();
+        });
+
+        $.ajax({
+            url: '../Cidade/ObterCidadesPorEstado',
+            data: { estado_codigo: estado_codigo },
+            type: 'get',
+            dataType: 'json',
+            success: function (cidades) {
+                if (cidades.length > 0) {
+                    cidades.forEach(function (item) {
+                        $('select#cidade').append('<option value="' + item.codigo + '">' + item.nome +'</option>');
+                    });
+                }
+            }
+        });
+    });
 });
 
 

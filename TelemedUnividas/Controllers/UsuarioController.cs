@@ -46,7 +46,6 @@ namespace TelemedUnividas.Controllers
         {
             try
             {
-                ViewData["cidades"] = (new CidadeModel()).Localizar();
                 ViewData["estados"] = (new UnidadeFederativaModel()).Localizar();
                 ViewData["clinicas"] = (new ClinicaModel()).Localizar();
                 ViewData["especialidades"] = (new EspecialidadeModel()).Localizar();

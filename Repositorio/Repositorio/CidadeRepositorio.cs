@@ -14,7 +14,7 @@ namespace Repositorio.Repositorio
 
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                cidades = (from c in db.Cidade where c.UnidadeFederativaCodigo == uf_codigo select c).ToList();
+                cidades = (from c in db.Cidade where c.UnidadeFederativaCodigo == uf_codigo orderby c.Nome select c).ToList();
             }
 
             return cidades;
