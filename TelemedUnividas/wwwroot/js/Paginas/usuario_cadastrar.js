@@ -1,3 +1,6 @@
+/**
+ * Estrutura para armazenar a combinação de especialidade-clinica
+ */
 class EspecialidadeClinica {
     constructor(especialidade, clinica) {
         this.especialidade = especialidade;
@@ -5,6 +8,9 @@ class EspecialidadeClinica {
     }
 }
 
+/**
+ * Estrutura para armazenar a combinação de especialista-clinica
+ */
 class EspecialistaClinica {
     constructor(especialista, clinica) {
         this.especialista = especialista;
@@ -12,8 +18,106 @@ class EspecialistaClinica {
     }
 }
 
+// Variável global que armazena as combinações de especialidade-clinica
 var espCliVetor = new Array();
+// Variável global que armazena as combinações de especialista-clinica
 var secEspClinicaVetor = new Array();
+
+/**
+ * Insere uma nova linha na tabela de clinica-especialidade
+ * 
+ * @param {string} clinica
+ * @param {string} especialidade
+ * @param {EspecialidadeClinica} espCli
+ */
+function inserirTabelaEspecialista(clinica, especialidade, espCli) {
+    $('#tabelaVinculosEspecialista tbody').append('<tr>'+
+        '<td data-clinica="' + espCli.clinica + '">' + clinica + '</td>' +
+        '<td data-especialidade="' + espCli.especialista + '">' + especialidade + '</td></tr>');
+
+    $('#feedback_especialista_nulo').hide();
+    $('#tabelaVinculosEspecialista').show();
+}
+
+/**
+ * Valida e insere uma nova combinação de clinica-especialidade
+ */
+function adicionarClinicaEspecialista()
+{
+    let especialidade = parseInt($('#selectEspecialidade').val());
+    let clinica = parseInt($('#selectClinica').val());
+
+    try {
+        if (!(isNaN(especialidade) && isNaN(clinica))) {
+            if (isNaN(especialidade)) {
+                $('#selectEspecialidade').val('').addClass('is-invalid');
+            } else {
+                if (isNaN(clinica)) {
+                    $('#selectClinica').val('').addClass('is-invalid');
+                } else {
+                    if (espCliVetor.length > 0) {
+                        // Verifica se a combinação clinica-especialidade já existe na lista
+                        let existe = false;
+                        for (var i = 0; i < espCliVetor.length; i++) {
+                            if ((especialidade === espCliVetor[i].especialidade) && (clinica === espCliVetor[i].clinica)) {
+                                existe = true;
+                            }
+                        }
+
+                        // Insere na lista se ainda não existe
+                        if (!existe) {
+                            // Insere na Lista
+                            let id = espCliVetor.length;
+                            espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
+
+                            // Inserir na tabela
+                            inserirTabelaEspecialista($('#selectClinica option:selected').text(), $('#selectEspecialidade option:selected').text(), espCliVetor[id]);
+
+                            // Limpar selects
+                            $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
+                            $('#selectEspecialidade').val('');
+                            $('#selectClinica').val('');
+                        } else {
+                            // alertar valores já existentes na lista
+                        }
+                    } else {
+                        // Insere na lista
+                        let id = espCliVetor.length;
+                        espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
+
+                        // Inserir na tabela
+                        inserirTabelaEspecialista($('#selectClinica option:selected').text(), $('#selectEspecialidade option:selected').text(), espCliVetor[id]);
+
+                        // Limpar selects
+                        $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
+                        $('#selectEspecialidade').val('');
+                        $('#selectClinica').val('');
+                    }
+                }
+            }
+        } else {
+            $('#selectEspecialidade').val('').addClass('is-invalid');
+            $('#selectClinica').val('').addClass('is-invalid');
+        }
+    } catch (ex) {
+        console.log(ex.message);
+    }
+}
+
+/**
+ * Remove uma linha da tabela de clinica-especialidade
+ * 
+ * @param {EspecialidadeClinica} espCli
+ */
+function removerTabelaEspecialista(espCli) {
+    let x = $('#tabelaVinculosEspecialista tr[data-clinica="' + espCli.clinica + '"] ~ tr[data-especialidade="' + espCli.especialista + '"]');
+    console.log(x);
+
+    if (espCliVetor.length <= 0) {
+        $('#feedback_especialista_nulo').show();
+        $('#tabelaVinculosEspecialista').hide();
+    }
+}
 
 $(document).ready(function () {
     /**
@@ -59,50 +163,7 @@ $(document).ready(function () {
      * Adiciona junções de Especialidade e Clínica
      */
     $('#btnAddEspecialidadeClinica').on('click', function () {
-        let especialidade = parseInt($('#selectEspecialidade').val());
-        let clinica = parseInt($('#selectClinica').val());
-
-        try {
-            if (!(isNaN(especialidade) && isNaN(clinica))) {
-                if (isNaN(especialidade)) {
-                    $('#selectEspecialidade').val('').addClass('is-invalid');
-                } else {
-                    if (isNaN(clinica)) {
-                        $('#selectClinica').val('').addClass('is-invalid');
-                    } else {
-                        if (espCliVetor.length > 0) {
-                            let existe = false; 
-                            for (var i = 0; i < espCliVetor.length; i++) {
-                                if ((especialidade === espCliVetor[i].especialidade) && (clinica === espCliVetor[i].clinica)) {
-                                    existe = true;
-                                }
-                            }
-
-                            if (!existe) {
-                                let id = espCliVetor.length;
-                                espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
-                                $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
-                                $('#selectEspecialidade').val('');
-                                $('#selectClinica').val('');
-                            } else {
-                                // alertar valores já existentes na lista
-                            }
-                        } else {
-                            let id = espCliVetor.length;
-                            espCliVetor[id] = new EspecialidadeClinica(especialidade, clinica);
-                            $('#especialidadesClinicas').val(JSON.stringify(espCliVetor));
-                            $('#selectEspecialidade').val('');
-                            $('#selectClinica').val('');
-                        }
-                    }
-                }
-            } else {
-                $('#selectEspecialidade').val('').addClass('is-invalid');
-                $('#selectClinica').val('').addClass('is-invalid');
-            }
-        } catch (ex) {
-            console.log(ex.message);
-        }
+        adicionarClinicaEspecialista();
     });
 
     /**
@@ -214,6 +275,9 @@ $(document).ready(function () {
         $(this).removeClass('is-invalid');
     });
 
+    /**
+     * Carrega a lista de cidades por ajax conforme ocorrer mudança no estado 
+     */
     $('select#estado').on('change', function () {
         let estado_codigo = $(this).val();
 

@@ -94,7 +94,6 @@ namespace Repositorio.Repositorio
 
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                db.Entry(eec);
                 db.EspecialidadeEspecialistaClinica.Add(eec);
                 db.SaveChanges();
             }
