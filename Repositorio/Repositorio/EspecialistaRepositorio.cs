@@ -67,13 +67,15 @@ namespace Repositorio.Repositorio
             List<Especialista> especialistas = null;
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                var query = db.Especialista    // your starting point - table in the "from" statement
-                   .Join(db.EspecialidadeEspecialistaClinica, // the source table of the inner join
-                      especialist => especialist.Codigo,        // Select the primary key (the first part of the "on" clause in an sql "join" statement)
-                      eec => eec.EspecialistaCodigo,   // Select the foreign key (the second part of the "on" clause)
-                      (especialist, eec) => new { Especialista = especialist, EspecialidadeEspecialistaClinica = eec }) // selection
+                var query = db.Especialista
+                   .Join(db.EspecialidadeEspecialistaClinica,
+                      especialist => especialist.Codigo,
+                      eec => eec.EspecialistaCodigo,
+                      (especialist, eec) => new { Especialista = especialist, EspecialidadeEspecialistaClinica = eec })
                    .Where(e => e.EspecialidadeEspecialistaClinica.ClinicaCodigo == clinica_codigo)
-                   .Select(e => e.Especialista).ToList();    // where statement
+                   .Select(e => e.Especialista).ToList();
+
+                especialistas = (List<Especialista>)query;
             }
 
             return especialistas;

@@ -5,29 +5,30 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TelemedUnividas.Models;
+using Repositorio.JsonModels;
 
 namespace TelemedUnividas.Controllers
 {
     public class EspecialistaController : Controller
     {
 
-        public JsonResult IndexClinica(IFormCollection form)
+       [HttpGet]
+       public JsonResult ObterPorClinica(int clinica_codigo)
         {
-            int id_clinica = int.Parse(form["id_clinica"]);
-            if (id_clinica != 0)
-            {
-                List<EspecialistaModel> especialistasList = (new EspecialistaModel()).LocalizarPorClinica(id_clinica);
+            List<EspecialistaModel> especialistas = (new EspecialistaModel()).LocalizarPorClinica(clinica_codigo);
+            List<EspecialistaJsonModel> especialistaJsonModels = new List<EspecialistaJsonModel>();
 
-                List<object> especialistasResumo = new List<object>();
-                foreach (EspecialistaModel especialista in especialistasList)
+            foreach (EspecialistaModel especialista in especialistas)
+            {
+                EspecialistaJsonModel especialistaJson = new EspecialistaJsonModel()
                 {
-                    especialistasResumo.Add(new { codigo = 0, nome = "Felipe" });
-                }
-                var response = new { success = true, data = especialistasResumo };
-                return new JsonResult(response);
+                    Codigo = especialista.Codigo,
+                    Nome = especialista.Nome + " " + especialista.Sobrenome
+                };
+                especialistaJsonModels.Add(especialistaJson);
             }
-            var responseError = new { success = false, message = "Clínica não informada"};
-            return new JsonResult(responseError);
+
+            return new JsonResult(especialistaJsonModels);
         }
 
         // GET: EspecialistaController

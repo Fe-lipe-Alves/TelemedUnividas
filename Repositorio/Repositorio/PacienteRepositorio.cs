@@ -62,6 +62,17 @@ namespace Repositorio.Repositorio
 
             return paciente;
         }
+        
+        public Paciente LocalizarEmail(string email)
+        {
+            Paciente paciente = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                paciente = (from p in db.Paciente where p.Email == email select p).FirstOrDefault();
+            }
+
+            return paciente;
+        }
         #endregion
     }
 }

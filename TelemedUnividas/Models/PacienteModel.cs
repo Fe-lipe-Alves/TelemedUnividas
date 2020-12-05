@@ -94,6 +94,12 @@ namespace TelemedUnividas.Models
             Paciente paciente = this.repositorio.LocalizarCPF(cpf);
             return PacienteModel.ReverterModel(paciente);
         }
+        
+        public PacienteModel LocalizarEmail(string email)
+        {
+            Paciente paciente = this.repositorio.LocalizarEmail(email);
+            return PacienteModel.ReverterModel(paciente);
+        }
 
         /// <summary>
         /// Retorna o <see cref="PacienteModel"/> que corresponde ao <paramref name="email"/> e <paramref name="senha"/> fornecidos

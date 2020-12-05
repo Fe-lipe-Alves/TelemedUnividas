@@ -169,9 +169,9 @@ $(document).ready(function () {
     /**
      * Obtem lista de especialistas de acordo com a clínica selecionada
      */
-    $('#selectClinicaSecretario').on('change', function () {
+
+    /*$('#selectClinicaSecretario').on('change', function () {
         let id_clinica = parseInt($(this).val());
-        let baseUrl = window.location.origin;
 
         if (!isNaN(id_clinica)) {
             $.ajax({
@@ -197,6 +197,7 @@ $(document).ready(function () {
             // Erro
         }
     });
+    */
 
     $('#btnAddEspecialistaSecretario').on('click', function () {
         let especialista = parseInt($('#selectEspecialista').val());
@@ -299,6 +300,32 @@ $(document).ready(function () {
             }
         });
     });
+
+    /**
+     * Carrega a lista de Especialistas por ajax conforme ocorrer mudança de clínica 
+     */
+    $('select#selectClinicaSecretario').on('change', function () {
+        let clinica_codigo = $(this).val();
+
+        $('select#selectEspecialista option').each(function () {
+            $(this).remove();
+        });
+
+        $.ajax({
+            url: '../Especialista/ObterPorClinica',
+            data: { clinica_codigo: clinica_codigo },
+            type: 'get',
+            dataType: 'json',
+            success: function (especialista) {
+                if (especialista.length > 0) {
+                    especialista.forEach(function (item) {
+                        $('select#selectEspecialista').append('<option value="' + item.codigo + '">' + item.nome + '</option>');
+                    });
+                }
+            }
+        });
+    });
+
 });
 
 

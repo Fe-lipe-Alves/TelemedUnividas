@@ -65,7 +65,7 @@ namespace TelemedUnividas.Controllers
         /// <returns></returns>
         [HttpPost]
         public IActionResult Salvar(IFormCollection form)
-        {
+        {            
             try
             {
                 // Dados Pessoal
@@ -98,6 +98,20 @@ namespace TelemedUnividas.Controllers
                     cidade != 0
                 )
                 {
+                    PacienteModel pacienteTeste = null;
+                    pacienteTeste = (new PacienteModel()).LocalizarCPF(cpf);
+                    if (pacienteTeste != null)
+                    {
+                        throw new Exception("CPF já cadastrado em outro usuário");
+                    }
+
+                    pacienteTeste = (new PacienteModel()).LocalizarEmail(cpf);
+                    if (pacienteTeste != null)
+                    {
+                        throw new Exception("CPF já cadastrado em outro usuário");
+                    }
+
+
                     String senha = Senha.Gerar();
 
                     EnderecoModel endereco = new EnderecoModel();
