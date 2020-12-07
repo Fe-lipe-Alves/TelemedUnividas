@@ -4,6 +4,17 @@
 
 @section Styles{
     <link href="~/css/agenda.css" rel="stylesheet" />
+    <style>
+        #ui-id-1 {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            list-style: none;
+            z-index: 5000;
+        }
+        #ui-id-1 li{
+            border-bottom: 1px solid #eee;
+        }
+    </style>
 }
 
 <h2>Index</h2>
@@ -42,10 +53,12 @@
             <div class="modal-body">
                 <form class="col-md-12 form-horizontal">
                     <input type="hidden" id="hdEventID" value="0" />
-                    <input type="hidden" id="paciente" value="0" />
-                    <div class="form-group">
+                    <input type="hidden" id="paciente"  value="0" />
+                    <div class="form-group" id="complete-nome">
                         <label>Paciente</label>
                         <input type="text" id="txtSubject" class="form-control" />
+                        <div class="ui-front w-100">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Inicio</label>
@@ -77,6 +90,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/locale-all.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
             function FormataStringData(data) {
@@ -92,7 +106,38 @@
                 // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
             }
 
+            var auto_array = {};
+            var label = '';
+            $("#txtSubject").autocomplete(
+                {
+                    source: function (request, response) {
+                        $.ajax({
+                            type: 'GET',
+                            url: "../Usuario/Buscar?pesquisa="+request.term,
+                            success: function (data) {
+                                console.log(data);
+                                response($.map(data, function (item) {
+                                    label = item.nome;
 
+                                    //Put the id of label in to auto_array. use the label as key in array
+                                    auto_array[label] = item.codigo;
+                                    return label;
+
+                                }));
+                            },
+
+                        })
+                    },
+                    appendTo: '#complete-nome',
+                    minLength: 3,
+
+                    //On select the label get the value(id) from auto_array and put in hidden input field 'autocompletePid'
+                    select: function (event, ui) {
+                        console.log(auto_array);
+                        $('#paciente').val(auto_array[ui.item.value]);
+                    }
+
+                });
 
             var events = [];
             var selectedEvent = null;
@@ -106,13 +151,15 @@
                         $.each(data, function (i, v) {
                             events.push({
                                 eventID: v.codigo,
-                                title: v.paciente,
-                                description: v.paciente,
+                                title: v.pacientenome,
+                                description: v.pacientenome,
                                 start: moment(FormataStringData(v.data)),
                                 end: null,
-                                color: (v.retorno === true) ? 'yellow' : 'blue',
+                                color: (v.status == 2) ? 'lightgray' : (v.retorno === true) ? 'yellow' : 'skyblue',
                                 allDay: false,
-                                retorno: v.retorno
+                                retorno: v.retorno,
+                                paciente: v.paciente,
+                                status: v.status
                             });
                         })
 
@@ -149,6 +196,19 @@
                         }
                         $description.append($('<p/>').html('<b>Descrição:</b>' + calEvent.description));
                         $('#myModal #pDetails').empty().html($description);
+
+                        $('#myModal .modal-footer #link-consulta').remove();
+                        if (calEvent.status == 2) {
+                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Visualizar?consuta_codigo=' +
+                                calEvent.eventID + '" id="link-consulta" class="btn btn-primary">Ir para prontuário</a>');
+                            $('#myModal #btnDelete').hide();
+                            $('#myModal #btnEdit').hide();
+                        } else {
+                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Index?consuta_codigo=' +
+                                calEvent.eventID + '"  id="link-consulta" class="btn btn-primary">Ir para consulta</a>');
+                            $('#myModal #btnDelete').show();
+                            $('#myModal #btnEdit').show();
+                        }
 
                         $('#myModal').modal();
                     },
@@ -226,6 +286,7 @@
             function openAddEditForm() {
                 if (selectedEvent != null) {
                     $('#hdEventID').val(selectedEvent.eventID);
+                    $('#paciente').val(selectedEvent.paciente);
                     $('#txtSubject').val(selectedEvent.title);
                     $('#txtStart').val(selectedEvent.start.format('DD/MM/YYYY HH:mm'));
                     $('#retorno').prop("checked", selectedEvent.retorno || false);
@@ -251,7 +312,7 @@
 
                 var data = {
                     Codigo: parseInt($('#hdEventID').val()),
-                    Paciente: parseInt($('#txtSubject').val().trim()),
+                    Paciente: parseInt($('#paciente').val()),
                     EspecialistaCodigo: parseInt(@ViewData["especialista_codigo"]),
                     ClinicaCodigo: parseInt(@ViewData["clinica_codigo"]),
                     Data: $('#txtStart').val().trim(),

@@ -328,5 +328,19 @@ namespace TelemedUnividas.Controllers
 
             return View("../Home/Index");
         }
+
+        public JsonResult Buscar(string pesquisa)
+        {
+            List<PacienteModel> pacientes = (new PacienteModel()).Localizar(pesquisa);
+
+            List<object> pacientesObject = new List<object>();
+
+            foreach (PacienteModel paciente in pacientes)
+            {
+                pacientesObject.Add(new { codigo = paciente.Codigo, nome = paciente.NomeCompleto() });
+            }
+
+            return new JsonResult(pacientesObject);
+        }
     }
 }

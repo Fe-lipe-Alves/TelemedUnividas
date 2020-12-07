@@ -37,6 +37,7 @@ namespace TelemedUnividas.Controllers
                         EspecialistaCodigo = consulta.EspecialistaCodigo,
                         Data = consulta.Data,
                         Paciente = consulta.Paciente,
+                        Pacientenome = (new PacienteModel()).Obter(consulta.Paciente).NomeCompleto(),
                         Retorno = consulta.Retorno,
                         Status = consulta.Status
                     };

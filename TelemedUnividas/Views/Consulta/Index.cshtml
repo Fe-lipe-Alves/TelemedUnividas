@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Consulta";
+}
+
+@{
+    PacienteModel paciente = (PacienteModel)ViewData["paciente"];
+    ConsultaModel consulta = (ConsultaModel)ViewData["consulta"];
+}
+
+<section class="ftco-section py-3 contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex contact-info">
+            <div class="col-12 col-md-12">
+                <h2 class="h4">Consulta</h2>
+            </div>
+        </div>
+        <div class="row block-9 pt-5">
+            <div class="col-12 col-md-4">
+                <h5>Dados Paciente</h5>
+                <p><strong>Nome: </strong>@paciente.NomeCompleto()</p>
+                <p><strong>E-mail: </strong>@paciente.Email</p>
+                <p><strong>CPF: </strong>@paciente.Cpf</p>
+            </div>
+            <div class="col-12 col-md-8 border-left">
+                <div id="chamada" class="w-100 bg-dark d-flex justify-content-center align-items-center" style="border-radius: 5px">
+                    <h5 class="text-muted">Aqui fica a video chamada</h5>
+                </div>
+            </div>
+            <form asp-controller="Consulta" asp-action="Salvar" class="col-12 mt-4" id="form-consulta">
+                <input type="hidden" name="consulta_codigo" value="@consulta.Codigo" />
+                <input type="hidden" name="fim" id="fim" />
+                <input type="hidden" name="inicio" id="inicio" />
+
+                <div class="row">
+                    <div class="col-6 form-group">
+                        <h5>Receita Médica</h5>
+                        <textarea name="receita" id="receita" rows="6" class="form-control"></textarea>
+                    </div>
+                    <div class="col-6 form-group">
+                        <h5>Atestado Médico</h5>
+                        <textarea name="atestado" id="atestado" rows="6" class="form-control"></textarea>
+                    </div>
+                    <div class="col-12 form-group">
+                        <h5>Observações da chamada</h5>
+                        <textarea name="obervacoes" id="obervacoes" rows="6" class="form-control"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <input type="submit" class="btn btn-primary float-right" value="Finalizar e Salvar" />
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+    <script>
+        var data;
+        $(document).ready(function () {
+            data = new Date();
+            $('input#inicio').val(data.toLocaleString());
+
+            $('form#form-consulta').on('submit', function (event) {
+                //event.preventDefault();
+
+                var agora = new Date();
+                $('input#fim').val(agora.toLocaleString());
+            });
+        });
+    </script>
+}

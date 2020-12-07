@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Visualizar Consulta";
+}
+
+
+@{
+    PacienteModel paciente = null;
+    ChamadaModel chamada = null;
+    ConsultaModel consulta = (ConsultaModel)ViewData["consulta"];
+    if(consulta != null)
+    {
+        paciente = (PacienteModel)ViewData["paciente"];
+        chamada = (ChamadaModel)ViewData["chamada"];
+    }
+}
+
+<section class="ftco-section py-3 contact-section ftco-degree-bg">
+    <div class="container">
+        <div class="row d-flex contact-info">
+            <div class="col-12 col-md-12">
+                <h2 class="h4">Consulta</h2>
+            </div>
+        </div>
+        @if (consulta != null)
+        {
+    <div class="row block-9 pt-5">
+        <div class="col-12 col-md-4">
+            <h5>Dados Paciente</h5>
+            <p><strong>Nome: </strong>@paciente.NomeCompleto()</p>
+            <p><strong>E-mail: </strong>@paciente.Email</p>
+            <p><strong>CPF: </strong>@paciente.Cpf</p>
+        </div>
+        <div class="col-12 col-md-4">
+            <h5>Dados Chamada</h5>
+            <p><strong>Início: </strong>@chamada.Inicio.ToString()</p>
+            <p><strong>Duração: </strong>@chamada.Duracao.ToString()</p>
+        </div>
+        <div class="col-12 col-md-8 border-left">
+            <div id="chamada" class="w-100 bg-dark d-flex justify-content-center align-items-center" style="border-radius: 5px">
+                <h5 class="text-muted">Aqui fica a video chamada</h5>
+            </div>
+        </div>
+        <form asp-controller="Consulta" asp-action="Salvar" class="col-12 mt-4" id="form-consulta">
+            <input type="hidden" name="consulta_codigo" value="@consulta.Codigo" />
+            <input type="hidden" name="fim" id="fim" />
+            <input type="hidden" name="inicio" id="inicio" />
+
+            <div class="row">
+                <div class="col-6 form-group">
+                    <h5>Receita Médica</h5>
+                    <textarea name="receita" id="receita" rows="6" class="form-control">@consulta.receita</textarea>
+                </div>
+                <div class="col-6 form-group">
+                    <h5>Atestado Médico</h5>
+                    <textarea name="atestado" id="atestado" rows="6" class="form-control">@consulta.atestado</textarea>
+                </div>
+                <div class="col-12 form-group">
+                    <h5>Observações da chamada</h5>
+                    <textarea name="obervacoes" id="obervacoes" rows="6" class="form-control">@chamada.Observacoes</textarea>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <input type="submit" class="btn btn-primary float-right" value="Finalizar e Salvar" />
+            </div>
+        </form>
+    </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p>Consulta não encontrada</p>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts{
+  
+}
