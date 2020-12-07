@@ -125,7 +125,8 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Link)
                     .HasColumnName("link")
-                    .HasMaxLength(255);
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Observacoes)
                     .HasColumnName("observacoes")
@@ -219,6 +220,10 @@ namespace Repositorio.Models
 
                 entity.Property(e => e.Codigo).HasColumnName("codigo");
 
+                entity.Property(e => e.Atestado)
+                    .HasColumnName("atestado")
+                    .HasColumnType("text");
+
                 entity.Property(e => e.ClinicaCodigo).HasColumnName("clinica_codigo");
 
                 entity.Property(e => e.Data)
@@ -228,6 +233,10 @@ namespace Repositorio.Models
                 entity.Property(e => e.EspecialistaCodigo).HasColumnName("especialista_codigo");
 
                 entity.Property(e => e.Paciente).HasColumnName("paciente");
+
+                entity.Property(e => e.Receita)
+                    .HasColumnName("receita")
+                    .HasColumnType("text");
 
                 entity.Property(e => e.Retorno).HasColumnName("retorno");
 

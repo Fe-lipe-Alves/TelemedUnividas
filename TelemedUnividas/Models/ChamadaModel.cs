@@ -12,7 +12,7 @@ namespace TelemedUnividas.Models
         #region Propriedades
         public int Codigo { get; set; }
         public int ConsultaCodigo { get; set; }
-        public byte[] Link { get; set; }
+        public string Link { get; set; }
         public DateTime? Inicio { get; set; }
         public TimeSpan? Duracao { get; set; }
         public bool? PresencaPaciente { get; set; }
@@ -31,7 +31,7 @@ namespace TelemedUnividas.Models
             base.repositorio = this.repositorio;
         }
 
-        public ChamadaModel(int codigo, int consultaCodigo, byte[] link, DateTime? inicio, TimeSpan? duracao, bool? presencaPaciente, bool? presencaEspecialista, string observacoes)
+        public ChamadaModel(int codigo, int consultaCodigo, String link, DateTime? inicio, TimeSpan? duracao, bool? presencaPaciente, bool? presencaEspecialista, string observacoes)
         {
             Codigo = codigo;
             ConsultaCodigo = consultaCodigo;
@@ -47,7 +47,11 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Métodos
-
+        public ChamadaModel ObterPorConsulta(int consulta_codigo)
+        {
+            Chamada chamada = this.repositorio.ObterPorConsulta(consulta_codigo);
+            return ChamadaModel.ReverterModel(chamada);
+        }
         #endregion
     }
 }

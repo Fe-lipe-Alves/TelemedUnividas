@@ -17,7 +17,7 @@
     </style>
 }
 
-<h2>Index</h2>
+<h2>Agenda</h2>
 <div id="calender"></div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -199,12 +199,12 @@
 
                         $('#myModal .modal-footer #link-consulta').remove();
                         if (calEvent.status == 2) {
-                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Visualizar?consuta_codigo=' +
+                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Visualizar?consulta_codigo=' +
                                 calEvent.eventID + '" id="link-consulta" class="btn btn-primary">Ir para prontuário</a>');
                             $('#myModal #btnDelete').hide();
                             $('#myModal #btnEdit').hide();
                         } else {
-                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Index?consuta_codigo=' +
+                            $('#myModal .modal-footer').append('<a asp-controller="Consulta" href="../Consulta/Index?consulta_codigo=' +
                                 calEvent.eventID + '"  id="link-consulta" class="btn btn-primary">Ir para consulta</a>');
                             $('#myModal #btnDelete').show();
                             $('#myModal #btnEdit').show();

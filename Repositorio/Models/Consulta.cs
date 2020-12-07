@@ -17,6 +17,8 @@ namespace Repositorio.Models
         public DateTime? Data { get; set; }
         public int? Status { get; set; }
         public bool? Retorno { get; set; }
+        public string Receita { get; set; }
+        public string Atestado { get; set; }
 
         public virtual Clinica ClinicaCodigoNavigation { get; set; }
         public virtual Especialista EspecialistaCodigoNavigation { get; set; }

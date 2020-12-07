@@ -17,6 +17,8 @@ namespace TelemedUnividas.Models
         public String Data { get; set; }
         public int? Status { get; set; }
         public bool? Retorno { get; set; }
+        public string Receita { get; set; }
+        public string Atestado { get; set; }
         #endregion
 
         #region Propriedades Auxiliares

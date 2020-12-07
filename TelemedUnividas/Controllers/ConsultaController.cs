@@ -11,9 +11,9 @@ namespace TelemedUnividas.Controllers
     public class ConsultaController : Controller
     {
         [HttpGet]
-        public IActionResult Index(int consuta_codigo)
+        public IActionResult Index(int consulta_codigo)
         {
-            ConsultaModel consulta = (new ConsultaModel()).Obter(consuta_codigo);
+            ConsultaModel consulta = (new ConsultaModel()).Obter(consulta_codigo);
             PacienteModel paciente = (new PacienteModel()).Obter(consulta.Paciente);
 
             ViewData["paciente"] = paciente;
@@ -26,12 +26,10 @@ namespace TelemedUnividas.Controllers
         {
             int consulta_codigo = int.Parse(form["consulta_codigo"]);
 
-            ConsultaModel consulta = (new ConsultaModel()).Obter(consulta_codigo);
-            consulta.Status = 2; // Status Concluída
-            consulta.Salvar();
+            
 
             string receita = form["receita"];
-            string atestado = form["atestdo"];
+            string atestado = form["atestado"];
             string observacoes = form["obervacoes"];
             DateTime inicio = DateTime.Parse(form["inicio"]);
             DateTime fim = DateTime.Parse(form["fim"]);
@@ -45,6 +43,12 @@ namespace TelemedUnividas.Controllers
             };
             chamada.Salvar();
 
+            ConsultaModel consulta = (new ConsultaModel()).Obter(consulta_codigo);
+            consulta.Status = 2; // Status Concluída
+            consulta.Receita = receita;
+            consulta.Atestado = atestado;
+            consulta.Salvar();
+
             return View("../Agenda/Index");
         }
 
@@ -53,6 +57,17 @@ namespace TelemedUnividas.Controllers
         {
             ConsultaModel consulta = (new ConsultaModel()).Obter(consulta_codigo);
             ViewData["consulta"] = consulta;
+
+            PacienteModel paciente = null;
+            ChamadaModel chamada = null;
+            if (consulta != null)
+            {
+                paciente = (new PacienteModel()).Obter(consulta.Paciente);
+                chamada = (new ChamadaModel()).ObterPorConsulta(consulta.Codigo);
+            }
+
+            ViewData["paciente"] = paciente;
+            ViewData["chamada"] = chamada;
 
             return View();
         }
