@@ -100,6 +100,28 @@ namespace Repositorio.Repositorio
                 db.SaveChanges();
             }
         }
+
+        public Especialista LocalizarCPF(string cpf)
+        {
+            Especialista especialista = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                especialista = (from p in db.Especialista where p.Cpf == cpf select p).FirstOrDefault();
+            }
+
+            return especialista;
+        }
+
+        public Especialista LocalizarEmail(string email)
+        {
+            Especialista especialista = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                especialista = (from p in db.Especialista where p.Email == email select p).FirstOrDefault();
+            }
+
+            return especialista;
+        }
         #endregion
     }
 }

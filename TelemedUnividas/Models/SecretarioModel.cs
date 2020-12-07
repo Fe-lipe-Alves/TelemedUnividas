@@ -59,6 +59,7 @@ namespace TelemedUnividas.Models
         public SecretarioModel()
         {
             this.repositorio = new SecretarioRepositorio();
+            base.repositorio = this.repositorio;
         }
 
         public SecretarioModel(int codigo, int? enderecoCodigo, string nome, string sobrenome, string cpf, string telefone, string email, string senha, DateTime? dataNascimento)
@@ -74,6 +75,7 @@ namespace TelemedUnividas.Models
             this.DataNascimento = dataNascimento;
 
             this.repositorio = new SecretarioRepositorio();
+            base.repositorio = this.repositorio;
         }
 
 
@@ -107,6 +109,18 @@ namespace TelemedUnividas.Models
         public String NomeCompleto()
         {
             return this.Nome + " " + this.Sobrenome;
+        }
+
+        public SecretarioModel LocalizarCPF(string cpf)
+        {
+            Secretario secretario = this.repositorio.LocalizarCPF(cpf);
+            return SecretarioModel.ReverterModel(secretario);
+        }
+
+        public SecretarioModel LocalizarEmail(string email)
+        {
+            Secretario secretario = this.repositorio.LocalizarEmail(email);
+            return SecretarioModel.ReverterModel(secretario);
         }
         #endregion
     }

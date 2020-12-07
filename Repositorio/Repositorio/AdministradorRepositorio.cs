@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Repositorio.Models;
 
 namespace Repositorio.Repositorio
@@ -18,7 +19,18 @@ namespace Repositorio.Repositorio
 
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                //administrador = (from p in db.Administrador where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+                administrador = (from p in db.Administrador where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+            }
+
+            return administrador;
+        }
+
+        public Administrador LocalizarEmail(string email)
+        {
+            Administrador administrador = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                administrador = (from p in db.Administrador where p.Email == email select p).FirstOrDefault();
             }
 
             return administrador;

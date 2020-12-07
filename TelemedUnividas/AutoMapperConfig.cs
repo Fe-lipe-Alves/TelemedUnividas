@@ -40,6 +40,12 @@ namespace TelemedUnividas
 
                 cfg.CreateMap<Chamada, ChamadaModel>();
                 cfg.CreateMap<ChamadaModel, Chamada>();
+
+                cfg.CreateMap<Administrador, AdministradorModel>();
+                cfg.CreateMap<AdministradorModel, Administrador>();
+
+                cfg.CreateMap<Secretario, SecretarioModel>();
+                cfg.CreateMap<SecretarioModel, Secretario>();
             });
             return config;
         }

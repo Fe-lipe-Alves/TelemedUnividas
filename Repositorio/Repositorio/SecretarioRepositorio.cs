@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Repositorio.Repositorio
 {
@@ -36,7 +37,29 @@ namespace Repositorio.Repositorio
             Secretario secretario = null;
             using (TelemedUnividasContext db = new TelemedUnividasContext())
             {
-                // secretario = (from p in db.Secretario where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+                 secretario = (from p in db.Secretario where p.Email == email && p.Senha == senha select p).FirstOrDefault();
+            }
+
+            return secretario;
+        }
+
+        public Secretario LocalizarCPF(string cpf)
+        {
+            Secretario secretario = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                secretario = (from p in db.Secretario where p.Cpf == cpf select p).FirstOrDefault();
+            }
+
+            return secretario;
+        }
+
+        public Secretario LocalizarEmail(string email)
+        {
+            Secretario secretario = null;
+            using (TelemedUnividasContext db = new TelemedUnividasContext())
+            {
+                secretario = (from p in db.Secretario where p.Email == email select p).FirstOrDefault();
             }
 
             return secretario;

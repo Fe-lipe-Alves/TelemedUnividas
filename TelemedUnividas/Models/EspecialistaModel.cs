@@ -152,6 +152,18 @@ namespace TelemedUnividas.Models
         {
             return this.Nome + " " + this.Sobrenome;
         }
+
+        public EspecialistaModel LocalizarCPF(string cpf)
+        {
+            Especialista paciente = this.repositorio.LocalizarCPF(cpf);
+            return EspecialistaModel.ReverterModel(paciente);
+        }
+
+        public EspecialistaModel LocalizarEmail(string email)
+        {
+            Especialista paciente = this.repositorio.LocalizarEmail(email);
+            return EspecialistaModel.ReverterModel(paciente);
+        }
         #endregion
     }
 }

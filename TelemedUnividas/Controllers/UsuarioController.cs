@@ -112,7 +112,8 @@ namespace TelemedUnividas.Controllers
                     }
 
 
-                    String senha = Senha.Gerar();
+                    //String senha = Senha.Gerar();
+                    String senha = "abcd@123";
 
                     EnderecoModel endereco = new EnderecoModel();
                     endereco.CidadeCodigo = cidade;
@@ -144,6 +145,20 @@ namespace TelemedUnividas.Controllers
                         }
                     } else if(tipoUsuario == "especialista")
                     {
+                        EspecialistaModel especialistaTeste = null;
+                        especialistaTeste = (new EspecialistaModel()).LocalizarCPF(cpf);
+                        if (especialistaTeste != null)
+                        {
+                            throw new Exception("CPF já cadastrado em outro usuário");
+                        }
+
+                        especialistaTeste = (new EspecialistaModel()).LocalizarEmail(cpf);
+                        if (especialistaTeste != null)
+                        {
+                            throw new Exception("CPF já cadastrado em outro usuário");
+                        }
+
+
                         string crm = form["crm"];
                         List<EspecialidadeClinicaJsonModel> especialidadesClinicas = System.Text.Json.JsonSerializer.Deserialize<List<EspecialidadeClinicaJsonModel>>(form["especialidadesClinicas"]);
                         
@@ -186,31 +201,41 @@ namespace TelemedUnividas.Controllers
                         }
                     } else if (tipoUsuario == "secretario")
                     {
-                        int clinica = int.Parse(form["clinicaSecretario"]);
-
-                        if(clinica != 0)
+                        SecretarioModel secretarioTeste = null;
+                        secretarioTeste = (new SecretarioModel()).LocalizarCPF(cpf);
+                        if (secretarioTeste != null)
                         {
-                            SecretarioModel secretario = new SecretarioModel()
-                            {
-                                Nome = nome,
-                                Sobrenome = sobrenome,
-                                Cpf = cpf,
-                                DataNascimento = dataNascimento,
-                                Telefone = telefone,
-                                Email = email,
-                                Senha = Hash.GetHashString(senha),
-                                EnderecoCodigo = endereco.Codigo
-                            };
-
-                            // ToDo // Verificar como esta o banco com a integração do secretario, especialista e clinica
-
-                            secretario.Salvar();
-                        } else
-                        {
-                            // clinica não informada
+                            throw new Exception("CPF já cadastrado em outro usuário");
                         }
+
+                        secretarioTeste = (new SecretarioModel()).LocalizarEmail(cpf);
+                        if (secretarioTeste != null)
+                        {
+                            throw new Exception("CPF já cadastrado em outro usuário");
+                        }
+
+                        SecretarioModel secretario = new SecretarioModel()
+                        {
+                            Nome = nome,
+                            Sobrenome = sobrenome,
+                            Cpf = cpf,
+                            DataNascimento = dataNascimento,
+                            Telefone = telefone,
+                            Email = email,
+                            Senha = Hash.GetHashString(senha),
+                            EnderecoCodigo = endereco.Codigo
+                        };
+
+                        secretario.Salvar();
                     } else if (tipoUsuario == "administrador")
                     {
+                        AdministradorModel administradorTeste = null;
+                        administradorTeste = (new AdministradorModel()).LocalizarEmail(cpf);
+                        if (administradorTeste != null)
+                        {
+                            throw new Exception("CPF já cadastrado em outro usuário");
+                        }
+
                         AdministradorModel administrador = new AdministradorModel()
                         {
                             Nome = nome,
@@ -219,20 +244,18 @@ namespace TelemedUnividas.Controllers
                             Senha = Hash.GetHashString(senha),
                         };
 
-                        // ToDo // Verificar como esta o banco com a integração do secretario, especialista e clinica
-
                         administrador.Salvar();
                     }
                     else
                     {
-                        // tipo de usuário não encontrado
+                        throw new Exception("Tipo de usuário não encontrado");
                     }
 
                     // Aqui segue o Fluxo normal e envia uma mensagem de e-mail
                     // com as informações de login
                 } else
                 {
-                    //dados incorretos
+                    throw new Exception("Preencha todos os campos corretamente.");
                 }
             }
             catch (Exception ex)
@@ -270,7 +293,7 @@ namespace TelemedUnividas.Controllers
             {
                 string email = form["email"];
                 //string senha = Hash.GetHashString(form["senha"]);
-                string senha = form["senha"];
+                string senha = Hash.GetHashString(form["senha"]);
 
                 if (email != "" && senha != "")
                 {

@@ -18,7 +18,7 @@ namespace TelemedUnividas.Models
         #endregion
 
         #region Propriedades Auxiliares
-        public AdministradorRepositorio repositorio;
+        public new AdministradorRepositorio repositorio;
 
         #endregion
 
@@ -52,6 +52,13 @@ namespace TelemedUnividas.Models
         public String NomeCompleto()
         {
             return this.Nome + " " + this.Sobrenome;
+        }
+
+
+        public AdministradorModel LocalizarEmail(string email)
+        {
+            Administrador administrador = this.repositorio.LocalizarEmail(email);
+            return AdministradorModel.ReverterModel(administrador);
         }
         #endregion
     }
